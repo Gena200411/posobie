@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Процессоры - CPU | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек характеристик, сокетов, будущего */
+    .feature-card, .socket-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .socket-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .socket-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских процессоров */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Центральные процессоры (CPU)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое CPU?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#sockets">Сокеты</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<div class="welcome" data-aos="fade-down">
+  🖥️ Изучаем процессоры: от архитектуры до передовых технологий
+</div>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ ПРОЦЕССОР ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое процессор?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>🧠 "Мозг" компьютера</h3>
+        <p>Процессор (Central Processing Unit, CPU) — это главное вычислительное устройство компьютера, которое выполняет команды программ и управляет всеми остальными компонентами системы.</p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_Core_i7-12700K_Processor.jpg/1280px-Intel_Core_i7-12700K_Processor.jpg" alt="Процессор Intel Core i7">
+      </div>
+      <div class="info-card">
+        <h3>⚡ Как работает процессор?</h3>
+        <p>Процессор выполняет миллиарды операций в секунду: <strong>Fetch</strong> (выборка команд) → <strong>Decode</strong> (декодирование) → <strong>Execute</strong> (выполнение) → <strong>Writeback</strong> (запись результата).</p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/CPU_block_diagram.svg/800px-CPU_block_diagram.svg.png" alt="Схема работы процессора">
+      </div>
+      <div class="info-card">
+        <h3>📊 От чего зависит производительность?</h3>
+        <ul>
+          <li>Тактовая частота (ГГц)</li>
+          <li>Количество ядер</li>
+          <li>Размер кэш-памяти</li>
+          <li>Техпроцесс (нм)</li>
+          <li>Архитектура</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('intel')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/1920px-Intel_logo_2023.svg.png" alt="Intel">
+      <h3>Intel</h3>
+      <p>Крупнейший производитель</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('amd')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/330px-AMD_Logo.svg.png" alt="AMD">
+      <h3>AMD</h3>
+      <p>Главный конкурент Intel</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('russian')">
+      <img src="https://upload.wikimedia.org/wikipedia/ru/thumb/8/8e/MCST_Logo.svg/1200px-MCST_Logo.svg.png" alt="Российские процессоры" style="width: 80px;">
+      <h3>Российские разработки</h3>
+      <p>Импортозамещение</p>
+      <span class="badge russian-badge">🇷🇺 Россия</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="intelModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('intel')">&times;</span>
+      <h3>📘 Серии процессоров Intel</h3>
+      <ul>
+        <li><strong>Intel Core i9</strong> — до 24 ядер, частота до 6.0 ГГц</li>
+        <li><strong>Intel Core i7</strong> — до 20 ядер, для игр и работы</li>
+        <li><strong>Intel Core i5</strong> — до 14 ядер, оптимальное решение</li>
+        <li><strong>Intel Core i3</strong> — до 8 ядер, начальный уровень</li>
+        <li><strong>Intel Xeon</strong> — серверные процессоры</li>
+      </ul>
+      <h4>🔌 Сокеты:</h4>
+      <ul><li>LGA1851, LGA1700, LGA1200</li></ul>
+      <h4>✨ Технологии:</h4>
+      <ul><li>Hyper-Threading, Turbo Boost, Quick Sync Video</li></ul>
+    </div>
+  </div>
+
+  <div id="amdModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('amd')">&times;</span>
+      <h3>📘 Серии процессоров AMD</h3>
+      <ul>
+        <li><strong>AMD Ryzen 9</strong> — до 16 ядер, флагман</li>
+        <li><strong>AMD Ryzen 7</strong> — до 12 ядер, высокая производительность</li>
+        <li><strong>AMD Ryzen 5</strong> — до 8 ядер, оптимальный выбор</li>
+        <li><strong>AMD Ryzen 3</strong> — до 6 ядер, начальный уровень</li>
+        <li><strong>AMD Threadripper</strong> — до 96 ядер, рабочие станции</li>
+      </ul>
+      <h4>🔌 Сокеты:</h4>
+      <ul><li>AM5, AM4, sTR5</li></ul>
+      <h4>✨ Технологии:</h4>
+      <ul><li>SMT, Precision Boost, 3D V-Cache</li></ul>
+    </div>
+  </div>
+
+  <div id="russianModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('russian')">&times;</span>
+      <h3>🇷🇺 Российские процессоры</h3>
+      <h4>🔷 Эльбрус (МЦСТ)</h4>
+      <ul><li>Эльбрус-8СВ — 8 ядер, 1.5 ГГц, 28 нм</li><li>Эльбрус-16С — 16 ядер, 2.0 ГГц (в разработке)</li></ul>
+      <h4>🔶 Байкал (Байкал Электроникс)</h4>
+      <ul><li>Байкал-М — 8 ядер ARM, 1.5 ГГц</li><li>Байкал-С — 48 ядер ARM (серверный)</li></ul>
+      <h4>🔹 Скиф и Комдив (НИИСИ РАН)</h4>
+      <ul><li>Скиф-1 — 4 ядра MIPS</li><li>Комдив-64 — ARM-совместимый</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 3. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('cores')">
+      <h3>🔢 Количество ядер</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('frequency')">
+      <h3>⚡ Тактовая частота</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('cache')">
+      <h3>💾 Кэш-память</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('process')">
+      <h3>🔬 Техпроцесс</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('architecture')">
+      <h3>🏗️ Архитектура</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('tdp')">
+      <h3>🌡️ TDP</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="coresModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('cores')">&times;</span>
+      <h3>🔢 Количество ядер</h3>
+      <p>Современные процессоры имеют от 2 до 128 ядер. Больше ядер — лучше многозадачность.</p>
+      <ul><li>2-4 ядра — офисные задачи</li><li>6-8 ядер — игры и монтаж</li><li>12+ ядер — профессиональная работа</li></ul>
+    </div>
+  </div>
+  <div id="frequencyModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('frequency')">&times;</span>
+      <h3>⚡ Тактовая частота</h3>
+      <p>Измеряется в гигагерцах (ГГц). Чем выше частота — тем быстрее операции.</p>
+      <ul><li>Базовые частоты: 2.0-3.5 ГГц</li><li>Турбо-режим: до 6.0 ГГц</li><li>Разгон (оверклокинг)</li></ul>
+    </div>
+  </div>
+  <div id="cacheModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('cache')">&times;</span>
+      <h3>💾 Кэш-память</h3>
+      <p>Сверхбыстрая память внутри процессора.</p>
+      <ul><li><strong>L1</strong> — 32-64 КБ на ядро (самый быстрый)</li><li><strong>L2</strong> — 256-512 КБ на ядро</li><li><strong>L3</strong> — 8-256 МБ (общий)</li></ul>
+    </div>
+  </div>
+  <div id="processModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('process')">&times;</span>
+      <h3>🔬 Техпроцесс</h3>
+      <p>Размер транзисторов в нанометрах (нм). Чем меньше — тем эффективнее.</p>
+      <ul><li>5 нм — AMD Ryzen 7000</li><li>Intel 7 (≈10 нм) — Intel 12-14 поколения</li><li>14-28 нм — старые модели</li></ul>
+    </div>
+  </div>
+  <div id="architectureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('architecture')">&times;</span>
+      <h3>🏗️ Архитектура</h3>
+      <p>Набор технологий, определяющих работу процессора.</p>
+      <ul><li><strong>Intel:</strong> Alder Lake, Raptor Lake, Meteor Lake</li><li><strong>AMD:</strong> Zen, Zen 2, Zen 3, Zen 4, Zen 5</li><li>Гибридная архитектура (P-cores + E-cores)</li></ul>
+    </div>
+  </div>
+  <div id="tdpModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('tdp')">&times;</span>
+      <h3>🌡️ TDP (Тепловыделение)</h3>
+      <p>Количество тепла под нагрузкой.</p>
+      <ul><li>65 Вт — энергоэффективные</li><li>125-170 Вт — мощные десктопные</li><li>200+ Вт — топовые с разгоном</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. СОКЕТЫ ========== -->
+  <h2 id="sockets" class="section-title" data-aos="fade-up">🔌 Сокеты процессоров</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="sockets-grid" data-aos="fade-up">
+    <div class="socket-card" onclick="showSocket('intelSockets')">
+      <h3>🟦 Сокеты Intel</h3>
+    </div>
+    <div class="socket-card" onclick="showSocket('amdSockets')">
+      <h3>🟥 Сокеты AMD</h3>
+    </div>
+    <div class="socket-card" onclick="showSocket('russianSockets')">
+      <h3>🇷🇺 Сокеты РФ</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для сокетов -->
+  <div id="intelSocketsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('intelSockets')">&times;</span>
+      <h3>🟦 Сокеты Intel</h3>
+      <ul><li><strong>LGA1851</strong> — новейший (2024+), 15 поколение Core</li><li><strong>LGA1700</strong> — 12, 13, 14 поколение Core</li><li><strong>LGA1200</strong> — 10, 11 поколение Core</li><li><strong>LGA1151v2</strong> — 8, 9 поколение Core</li><li><strong>LGA2066</strong> — для Xeon и Core X (HEDT)</li></ul>
+    </div>
+  </div>
+  <div id="amdSocketsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('amdSockets')">&times;</span>
+      <h3>🟥 Сокеты AMD</h3>
+      <ul><li><strong>AM5</strong> — Ryzen 7000/8000/9000, DDR5</li><li><strong>AM4</strong> — Ryzen 1000-5000, DDR4</li><li><strong>sTR5/sTRX4</strong> — Threadripper</li><li><strong>TR4</strong> — Threadripper первого поколения</li><li><strong>FM2+/AM3+</strong> — старые сокеты (FX, A-series)</li></ul>
+    </div>
+  </div>
+  <div id="russianSocketsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('russianSockets')">&times;</span>
+      <h3>🇷🇺 Сокеты российских процессоров</h3>
+      <ul><li><strong>Сокет Hе-8СВ</strong> — для Эльбрус-8СВ</li><li><strong>BGA</strong> — впаиваемые процессоры Байкал-М</li><li>Большинство отечественных CPU — монолитные решения</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 5. ОТЕЧЕСТВЕННЫЕ ПРОЦЕССОРЫ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные процессоры: подробный обзор</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 Эльбрус (АО «МЦСТ»)</h3>
+    <ul>
+      <li><strong>Эльбрус-8СВ</strong> — 8 ядер, 1.5 ГГц, 28 нм, производительность ~250 Гфлопс</li>
+      <li><strong>Эльбрус-16С</strong> — 16 ядер, 2.0 ГГц, 16 нм (в разработке)</li>
+      <li><strong>Эльбрус-2С+</strong> — 2 ядра для встраиваемых систем</li>
+      <li>Архитектура VLIW, собственная система команд «Эльбрус»</li>
+    </ul>
+    
+    <h3>🔶 Байкал (АО «Байкал Электроникс»)</h3>
+    <ul>
+      <li><strong>Байкал-М</strong> — 8 ядер ARM Cortex-A57, 1.5 ГГц, 28 нм, TDP 35 Вт</li>
+      <li><strong>Байкал-С</strong> — 48 ядер ARM, 2.0 ГГц (серверный процессор)</li>
+      <li><strong>Байкал-Л</strong> — 4 ядра, для ноутбуков и планшетов</li>
+      <li>Совместимость с Linux, поддержка аппаратной виртуализации</li>
+    </ul>
+    
+    <h3>🔹 Скиф и Комдив (НИИСИ РАН)</h3>
+    <ul>
+      <li><strong>Скиф-1</strong> — 4 ядра, архитектура MIPS, для встраиваемых систем</li>
+      <li><strong>Комдив-64</strong> — 64-битный ARM-совместимый процессор</li>
+      <li><strong>Кортес-М</strong> — микроконтроллеры для защищённых систем</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Российские процессоры уступают по производительности Intel/AMD, но активно развиваются в рамках программ импортозамещения. Основное применение — государственный сектор, оборонная промышленность и критическая инфраструктура.
+    </p>
+  </div>
+
+  <!-- ========== 6. КАК ВЫБРАТЬ ПРОЦЕССОР? ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать процессор?</h2>
+  
+  <div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Для офиса/интернета:</strong> Intel Core i3 / AMD Ryzen 3</li>
+      <li><strong>Для игр:</strong> Intel Core i5/i7 / AMD Ryzen 5/7 (важна частота и кэш)</li>
+      <li><strong>Для монтажа и 3D:</strong> Intel Core i7/i9 / AMD Ryzen 7/9 (больше ядер = лучше)</li>
+      <li><strong>Для сервера:</strong> Intel Xeon / AMD EPYC / Байкал-С</li>
+      <li><strong>Для импортозамещения:</strong> Эльбрус-8СВ / Байкал-М</li>
+    </ul>
+  </div>
+  
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Проверьте совместимость с материнской платой (сокет, чипсет)</li>
+      <li>Убедитесь, что блок питания имеет достаточную мощность</li>
+      <li>Для мощных CPU потребуется хорошее охлаждение</li>
+      <li>Российские процессоры требуют специального ПО (редкие дистрибутивы Linux)</li>
+    </ul>
+  </div>
+
+  <!-- ========== 7. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение современных процессоров</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Модель</th><th>Ядра/Потоки</th><th>Макс. частота</th><th>Кэш L3</th><th>TDP</th><th>Сокет</th><th>Цена</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Intel Core i9-14900K</td><td>24/32</td><td>6.0 ГГц</td><td>36 МБ</td><td>125W</td><td>LGA1700</td><td>~$600</td></tr>
+        <tr><td>Intel Core i7-14700K</td><td>20/28</td><td>5.6 ГГц</td><td>33 МБ</td><td>125W</td><td>LGA1700</td><td>~$400</td></tr>
+        <tr><td>Intel Core i5-14600K</td><td>14/20</td><td>5.3 ГГц</td><td>24 МБ</td><td>125W</td><td>LGA1700</td><td>~$300</td></tr>
+        <tr><td>AMD Ryzen 9 7950X</td><td>16/32</td><td>5.7 ГГц</td><td>64 МБ</td><td>170W</td><td>AM5</td><td>~$550</td></tr>
+        <tr><td>AMD Ryzen 7 7800X3D</td><td>8/16</td><td>5.0 ГГц</td><td>96 МБ</td><td>120W</td><td>AM5</td><td>~$450</td></tr>
+        <tr><td>AMD Ryzen 5 7600X</td><td>6/12</td><td>5.3 ГГц</td><td>32 МБ</td><td>105W</td><td>AM5</td><td>~$250</td></tr>
+        <tr><td>Эльбрус-8СВ</td><td>8/8</td><td>1.5 ГГц</td><td>16 МБ</td><td>65W</td><td>Собств.</td><td>~$3000</td></tr>
+        <tr><td>Байкал-М</td><td>8/8</td><td>1.5 ГГц</td><td>8 МБ</td><td>35W</td><td>BGA</td><td>~$500</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 8. БУДУЩЕЕ ПРОЦЕССОРОВ ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее процессоров</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('nanometer')">
+      <h3>⚛️ 2 нм и меньше</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('3d')">
+      <h3>🧬 3D-компоновка</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('ai')">
+      <h3>🤖 AI-ускорители</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('heterogeneous')">
+      <h3>🔗 Гетерогенные</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('russianFuture')">
+      <h3>🇷🇺 Россия</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="nanometerModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('nanometer')">&times;</span>
+      <h3>⚛️ 2 нм и меньше</h3>
+      <p>Компании переходят на техпроцессы 2 нм и 1.8 нм (TSMC, Intel 18A). Это позволит разместить до 200 млрд транзисторов на одном чипе, увеличив производительность при снижении энергопотребления.</p>
+    </div>
+  </div>
+  <div id="3dModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('3d')">&times;</span>
+      <h3>🧬 3D-компоновка</h3>
+      <p>AMD уже использует 3D V-Cache (дополнительный кэш поверх чипа). Intel развивает технологию Foveros с вертикальным размещением чипов. Это позволяет увеличить плотность транзисторов и скорость обмена данными.</p>
+    </div>
+  </div>
+  <div id="aiModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ai')">&times;</span>
+      <h3>🤖 AI-ускорители</h3>
+      <p>В процессорах появляются специализированные блоки для нейросетей: NPU (Neural Processing Unit) у Intel Meteor Lake, Ryzen AI у AMD. Это ускоряет задачи машинного обучения и обработки изображений.</p>
+    </div>
+  </div>
+  <div id="heterogeneousModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('heterogeneous')">&times;</span>
+      <h3>🔗 Гетерогенные вычисления</h3>
+      <p>Объединение CPU, GPU и NPU в одном чипе для максимальной эффективности. Это позволяет распределять нагрузку между разными типами вычислителей в реальном времени.</p>
+    </div>
+  </div>
+  <div id="russianFutureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('russianFuture')">&times;</span>
+      <h3>🇷🇺 Российские разработки</h3>
+      <p>Планируется выпуск Эльбрус-16С (16 нм), Байкал-С (48 ядер, серверный), развитие архитектуры RISC-V для создания независимых процессорных решений.</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея процессоров</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_Core_i7-12700K_Processor.jpg/1280px-Intel_Core_i7-12700K_Processor.jpg" alt="Intel Core i7">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/AMD_Ryzen_7_1800X.jpg/1280px-AMD_Ryzen_7_1800X.jpg" alt="AMD Ryzen 7">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Elbrus-8S_processor.jpg/1280px-Elbrus-8S_processor.jpg" alt="Эльбрус-8С">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/14nm_vs_22nm_Intel_CPUs.jpg/800px-14nm_vs_22nm_Intel_CPUs.jpg" alt="Сравнение процессоров">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции для характеристик
+  function showFeature(feature) {
+    document.getElementById(feature + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для сокетов
+  function showSocket(socket) {
+    document.getElementById(socket + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для будущего
+  function showFuture(future) {
+    document.getElementById(future + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для производителей
+  window.showSeries = function(manufacturer) {
+    document.getElementById(manufacturer + 'Modal').style.display = 'block';
+  };
+  
+  window.closeModal = function(modalId) {
+    document.getElementById(modalId + 'Modal').style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = ['intel', 'amd', 'russian', 'cores', 'frequency', 'cache', 'process', 'architecture', 'tdp', 'intelSockets', 'amdSockets', 'russianSockets', 'nanometer', '3d', 'ai', 'heterogeneous', 'russianFuture'];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id + 'Modal');
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+</script>
+
+</body>
+</html>

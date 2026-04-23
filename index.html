@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Информационно-справочное пособие по аппаратному обеспечению ЭВМ</title>
+
+  <link rel="stylesheet" href="./CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="./PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Информационно-справочное пособие</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="./HTML/cpu.html">Процессоры (CPU)</a>
+  <a href="./HTML/ram.html">Оперативная память (RAM)</a>
+  <a href="./HTML/storage.html">Накопители (HDD/SSD)</a>
+  <a href="./HTML/gpu.html">Видеокарты (GPU)</a>
+  <a href="./HTML/motherboard.html">Материнские платы</a>
+  <a href="./HTML/psu.html">Блоки питания (PSU)</a>
+  <a href="./HTML/cooling.html">Системы охлаждения</a>
+</nav>
+
+<main>
+  <div class="hero-section" data-aos="fade-down">
+    <h1>📚 Аппаратное обеспечение электронно-вычислительных машин</h1>
+    <p>Систематизированное руководство по архитектуре и компонентам современных вычислительных систем</p>
+  </div>
+
+  <div class="about-project" data-aos="fade-up">
+    <h2>📖 О справочном пособии</h2>
+    <p>Настоящее информационно-справочное пособие предназначено для изучения аппаратной составляющей персональных компьютеров и серверного оборудования. В пособии рассматриваются:</p>
+    <ul>
+      <li>Архитектура и принципы работы основных компонентов ЭВМ</li>
+      <li>Технические характеристики и сравнительный анализ оборудования</li>
+      <li>Отечественные разработки в области вычислительной техники</li>
+      <li>Рекомендации по выбору компонентов для различных задач</li>
+    </ul>
+    <p>Материалы пособия могут быть использованы при подготовке к занятиям по информатике, компьютерной архитектуре и смежным дисциплинам.</p>
+  </div>
+
+  <div class="cards-container">
+    <a href="./HTML/cpu.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Центральные процессоры (CPU)</h2>
+          <p>Арифметико-логическое устройство, управляющее всеми вычислительными процессами. Рассматриваются архитектуры x86/x64, ARM, отечественные разработки (Эльбрус, Байкал).</p>
+          <span class="card-tag">Intel | AMD | Эльбрус</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/cpu.png" alt="Процессор">
+        </div>
+      </div>
+    </a>
+
+    <a href="./HTML/ram.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Оперативная память (RAM)</h2>
+          <p>Энергозависимая память для временного хранения данных и команд. Типы DDR3/DDR4/DDR5, тайминги, частоты, двухканальный режим.</p>
+          <span class="card-tag">DDR3 | DDR4 | DDR5</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/ram.png" alt="Оперативная память">
+        </div>
+      </div>
+    </a>
+
+    <a href="./HTML/storage.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Накопители данных (HDD/SSD)</h2>
+          <p>Устройства долговременного хранения информации. Магнитные диски (HDD), твердотельные накопители (SSD), интерфейсы SATA/NVMe, контроллеры.</p>
+          <span class="card-tag">HDD | SSD | NVMe</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/hdd.png" alt="Накопитель данных">
+        </div>
+      </div>
+    </a>
+
+    <a href="./HTML/gpu.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Графические процессоры (GPU)</h2>
+          <p>Специализированные вычислители для обработки графики и параллельных вычислений. Архитектуры NVIDIA, AMD, Intel Arc, применение в машинном обучении.</p>
+          <span class="card-tag">NVIDIA | AMD | Intel</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/gpu.png" alt="Видеокарта">
+        </div>
+      </div>
+    </a>
+
+    <a href="./HTML/motherboard.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Материнские платы</h2>
+          <p>Основная печатная плата, объединяющая все компоненты. Форм-факторы, чипсеты, сокеты, разъёмы расширения.</p>
+          <span class="card-tag">ATX | microATX | Mini-ITX</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/motherboard.png" alt="Материнская плата">
+        </div>
+      </div>
+    </a>
+
+    <a href="./HTML/psu.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Блоки питания (PSU)</h2>
+          <p>Устройства электропитания компонентов ПК. Мощность, эффективность (80 PLUS), модульные кабели, защитные механизмы.</p>
+          <span class="card-tag">80 PLUS | ATX | SFX</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/psu.png" alt="Блок питания">
+        </div>
+      </div>
+    </a>
+
+    <a href="./HTML/cooling.html" class="card-link" data-aos="fade-up">
+      <div class="card">
+        <div class="card-content">
+          <h2>Системы охлаждения</h2>
+          <p>Комплексы для отвода тепла от компонентов. Воздушное, жидкостное, пассивное охлаждение. Термоинтерфейсы, вентиляторы, радиаторы.</p>
+          <span class="card-tag">Air | Liquid | Passive</span>
+        </div>
+        <div class="card-image">
+          <img src="./PNG/case.png" alt="Система охлаждения">
+        </div>
+      </div>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="./JS/script.js"></script>
+
+</body>
+</html>
