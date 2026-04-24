@@ -217,6 +217,13 @@
       font-size: 14px;
     }
     
+    /* Центрирование для карточки производства */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
     /* Адаптивность */
     @media (max-width: 900px) {
       .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
@@ -249,6 +256,7 @@
 <nav id="navbar">
   <a href="../index.html">← На главную</a>
   <a href="#intro">Что такое CPU?</a>
+  <a href="#manufacture">Как производят?</a>
   <a href="#manufacturers">Производители</a>
   <a href="#sockets">Сокеты</a>
   <a href="#russian">Отечественные</a>
@@ -256,10 +264,6 @@
   <a href="#comparison">Сравнение</a>
   <a href="#future">Будущее</a>
 </nav>
-
-<div class="welcome" data-aos="fade-down">
-  🖥️ Изучаем процессоры: от архитектуры до передовых технологий
-</div>
 
 <main>
   <!-- ========== 1. ЧТО ТАКОЕ ПРОЦЕССОР ========== -->
@@ -269,25 +273,35 @@
       <div class="info-card">
         <h3>🧠 "Мозг" компьютера</h3>
         <p>Процессор (Central Processing Unit, CPU) — это главное вычислительное устройство компьютера, которое выполняет команды программ и управляет всеми остальными компонентами системы.</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_Core_i7-12700K_Processor.jpg/1280px-Intel_Core_i7-12700K_Processor.jpg" alt="Процессор Intel Core i7">
+        <img src="../PNG/intel_cpu.png" alt="Процессор Intel Core i7">
       </div>
       <div class="info-card">
         <h3>⚡ Как работает процессор?</h3>
         <p>Процессор выполняет миллиарды операций в секунду: <strong>Fetch</strong> (выборка команд) → <strong>Decode</strong> (декодирование) → <strong>Execute</strong> (выполнение) → <strong>Writeback</strong> (запись результата).</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/CPU_block_diagram.svg/800px-CPU_block_diagram.svg.png" alt="Схема работы процессора">
+        <img src="../PNG/cpu_diagram.png" alt="Схема работы процессора">
+		<p>Структурная схема базового однопроцессорного компьютера. Черными линиями обозначен поток данных, красными — поток управления; стрелки указывают направление потока.<p>
       </div>
       <div class="info-card">
-        <h3>📊 От чего зависит производительность?</h3>
+        <h3>📊 Основные функции CPU</h3>
         <ul>
-          <li>Тактовая частота (ГГц)</li>
-          <li>Количество ядер</li>
-          <li>Размер кэш-памяти</li>
-          <li>Техпроцесс (нм)</li>
-          <li>Архитектура</li>
+          <li><strong>Выполнение инструкций</strong> — интерпретация и выполнение машинного кода программ</li>
+          <li><strong>Управление памятью</strong> — обращение к ОЗУ, ПЗУ и кэш-памяти</li>
+          <li><strong>Обработка данных</strong> — вычисления и возврат результатов</li>
+          <li><strong>Управление системой</strong> — координация работы HDD, GPU, RAM и других компонентов</li>
         </ul>
       </div>
     </div>
   </section>
+
+  <!-- ========== 1.5. КАК ИЗГОТАВЛИВАЮТ ПРОЦЕССОРЫ (НОВЫЙ РАЗДЕЛ ИЗ СТАТЬИ) ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как изготавливают процессоры?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о сложном пути от песка до чипа</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>🔬 От песка до процессора</h3>
+    </div>
+  </div>
 
   <!-- ========== 2. ПРОИЗВОДИТЕЛИ ========== -->
   <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители</h2>
@@ -309,7 +323,8 @@
     </div>
 
     <div class="manufacturer-card" onclick="showSeries('russian')">
-      <img src="https://upload.wikimedia.org/wikipedia/ru/thumb/8/8e/MCST_Logo.svg/1200px-MCST_Logo.svg.png" alt="Российские процессоры" style="width: 80px;">
+      <img src="../PNG/baikal-logo.png" alt="Российские процессоры" style="width: 80px;">
+	  <img src="../PNG/Elbrus-logo.png" alt="Российские процессоры" style="width: 80px;">
       <h3>Российские разработки</h3>
       <p>Импортозамещение</p>
       <span class="badge russian-badge">🇷🇺 Россия</span>
@@ -404,13 +419,14 @@
       <h3>⚡ Тактовая частота</h3>
       <p>Измеряется в гигагерцах (ГГц). Чем выше частота — тем быстрее операции.</p>
       <ul><li>Базовые частоты: 2.0-3.5 ГГц</li><li>Турбо-режим: до 6.0 ГГц</li><li>Разгон (оверклокинг)</li></ul>
+      <p>💡 <strong>Троттлинг:</strong> При перегреве процессор принудительно снижает частоту, чтобы избежать повреждения.</p>
     </div>
   </div>
   <div id="cacheModal" class="modal">
     <div class="modal-content"><span class="close" onclick="closeModal('cache')">&times;</span>
       <h3>💾 Кэш-память</h3>
-      <p>Сверхбыстрая память внутри процессора.</p>
-      <ul><li><strong>L1</strong> — 32-64 КБ на ядро (самый быстрый)</li><li><strong>L2</strong> — 256-512 КБ на ядро</li><li><strong>L3</strong> — 8-256 МБ (общий)</li></ul>
+      <p>Сверхбыстрая память внутри процессора для часто используемых данных.</p>
+      <ul><li><strong>L1</strong> — 32-64 КБ на ядро (самый быстрый)</li><li><strong>L2</strong> — 256-512 КБ на ядро</li><li><strong>L3</strong> — 8-256 МБ (общий для ядер)</li></ul>
     </div>
   </div>
   <div id="processModal" class="modal">
@@ -424,14 +440,41 @@
     <div class="modal-content"><span class="close" onclick="closeModal('architecture')">&times;</span>
       <h3>🏗️ Архитектура</h3>
       <p>Набор технологий, определяющих работу процессора.</p>
-      <ul><li><strong>Intel:</strong> Alder Lake, Raptor Lake, Meteor Lake</li><li><strong>AMD:</strong> Zen, Zen 2, Zen 3, Zen 4, Zen 5</li><li>Гибридная архитектура (P-cores + E-cores)</li></ul>
+      <ul>
+        <li><strong>Intel:</strong> Alder Lake, Raptor Lake, Meteor Lake</li>
+        <li><strong>AMD:</strong> Zen, Zen 2, Zen 3, Zen 4, Zen 5</li>
+      </ul>
+      <h4>Типы архитектур:</h4>
+      <ul>
+        <li><strong>CISC</strong> — сложные команды (Intel, AMD)</li>
+        <li><strong>RISC</strong> — простые команды, энергоэффективность (ARM)</li>
+        <li><strong>VLIW</strong> — длинные команды (Эльбрус)</li>
+      </ul>
     </div>
   </div>
   <div id="tdpModal" class="modal">
     <div class="modal-content"><span class="close" onclick="closeModal('tdp')">&times;</span>
       <h3>🌡️ TDP (Тепловыделение)</h3>
-      <p>Количество тепла под нагрузкой.</p>
+      <p>Количество тепла, которое процессор выделяет под нагрузкой. Измеряется в ваттах (Вт).</p>
       <ul><li>65 Вт — энергоэффективные</li><li>125-170 Вт — мощные десктопные</li><li>200+ Вт — топовые с разгоном</li></ul>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('manufacture')">&times;</span>
+      <h3>🔬 Как создают процессоры</h3>
+      <p>Это сложнейший технологический процесс, требующий идеальной чистоты и точности:</p>
+      <ol>
+        <li><strong>Очистка песка</strong> — кварцевый песок (диоксид кремния) превращают в чистый кремний.</li>
+        <li><strong>Выращивание кристалла</strong> — кремний плавят при температуре до 1900°C и получают идеальный цилиндрический стержень.</li>
+        <li><strong>Нарезка пластин</strong> — стержень нарезают на тончайшие «блины» толщиной до 1 мм.</li>
+        <li><strong>Литография</strong> — на пластины с помощью сложных фотопроцессов наносят миллиарды транзисторов.</li>
+        <li><strong>Нарезка чипов</strong> — готовую пластину разрезают на отдельные кристаллы-чипы.</li>
+        <li><strong>Упаковка</strong> — чип помещают в защитный корпус с термоинтерфейсом для отвода тепла.</li>
+        <li><strong>Тестирование</strong> — каждый процессор проверяют на производительность и маркируют.</li>
+      </ol>
+      <p>💡 <strong>Факт:</strong> Производство идёт в стерильных цехах, где рабочие не могут пользоваться косметикой и духами. Заводы стоят на сейсмических подушках, чтобы даже вибрация земли не нарушила литографию.</p>
     </div>
   </div>
 
@@ -468,11 +511,12 @@
     <div class="modal-content"><span class="close" onclick="closeModal('russianSockets')">&times;</span>
       <h3>🇷🇺 Сокеты российских процессоров</h3>
       <ul><li><strong>Сокет Hе-8СВ</strong> — для Эльбрус-8СВ</li><li><strong>BGA</strong> — впаиваемые процессоры Байкал-М</li><li>Большинство отечественных CPU — монолитные решения</li></ul>
+      <p>💡 <strong>Типы крепления:</strong> Распаянные (только паяльником) и разъёмные (вставляются в сокет).</p>
     </div>
   </div>
 
   <!-- ========== 5. ОТЕЧЕСТВЕННЫЕ ПРОЦЕССОРЫ ========== -->
-  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные процессоры: подробный обзор</h2>
+  <h2 id="russian" class="section-title" data-aos="fade-up">Отечественные процессоры: подробный обзор</h2>
   
   <div class="russian-container" data-aos="fade-up">
     <h3>🔷 Эльбрус (АО «МЦСТ»)</h3>
@@ -480,7 +524,7 @@
       <li><strong>Эльбрус-8СВ</strong> — 8 ядер, 1.5 ГГц, 28 нм, производительность ~250 Гфлопс</li>
       <li><strong>Эльбрус-16С</strong> — 16 ядер, 2.0 ГГц, 16 нм (в разработке)</li>
       <li><strong>Эльбрус-2С+</strong> — 2 ядра для встраиваемых систем</li>
-      <li>Архитектура VLIW, собственная система команд «Эльбрус»</li>
+      <li>Архитектура VLIW (очень длинная команда), собственная система команд «Эльбрус»</li>
     </ul>
     
     <h3>🔶 Байкал (АО «Байкал Электроникс»)</h3>
@@ -493,7 +537,7 @@
     
     <h3>🔹 Скиф и Комдив (НИИСИ РАН)</h3>
     <ul>
-      <li><strong>Скиф-1</strong> — 4 ядра, архитектура MIPS, для встраиваемых систем</li>
+      <li><strong>Скиф-1</strong> — 4 ядра, архитектура MISC/MIPS, для встраиваемых систем</li>
       <li><strong>Комдив-64</strong> — 64-битный ARM-совместимый процессор</li>
       <li><strong>Кортес-М</strong> — микроконтроллеры для защищённых систем</li>
     </ul>
@@ -503,9 +547,22 @@
     </p>
   </div>
 
-  <!-- ========== 6. КАК ВЫБРАТЬ ПРОЦЕССОР? ========== -->
+  <!-- ========== 6. КАК ВЫБРАТЬ ПРОЦЕССОР? (РАСШИРЕННЫЙ РАЗДЕЛ) ========== -->
   <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать процессор?</h2>
   
+  <!-- НОВЫЙ БЛОК: Типы процессоров по назначению (из статьи Skillbox) -->
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <p>Процессоры делятся на несколько типов в зависимости от задач, для которых они созданы:</p>
+    <ul>
+      <li><strong>Универсальные</strong> — для большинства компьютеров и рабочих станций (Intel Core, AMD Ryzen).</li>
+      <li><strong>Серверные</strong> — с большим количеством ядер и потоков, для высоких нагрузок и баз данных (Intel Xeon, AMD EPYC, Байкал-С).</li>
+      <li><strong>Мобильные</strong> — энергоэффективные, для смартфонов и ноутбуков (ARM, Intel Core Mobile).</li>
+      <li><strong>Встраиваемые</strong> — для конкретных задач в бытовой технике, автомобилях, системах сигнализации (Эльбрус-2С+, Скиф-1).</li>
+    </ul>
+  </div>
+
+  <!-- СУЩЕСТВУЮЩИЙ БЛОК: Советы по выбору -->
   <div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
     <ul class="feature-list">
       <li><strong>Для офиса/интернета:</strong> Intel Core i3 / AMD Ryzen 3</li>
@@ -516,6 +573,7 @@
     </ul>
   </div>
   
+  <!-- СУЩЕСТВУЮЩИЙ БЛОК: Важные моменты -->
   <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
     <h3>⚠️ Важные моменты при выборе</h3>
     <ul>
@@ -604,10 +662,10 @@
   <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
   <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея процессоров</h2>
   <div class="image-gallery" data-aos="fade-up">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_Core_i7-12700K_Processor.jpg/1280px-Intel_Core_i7-12700K_Processor.jpg" alt="Intel Core i7">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/AMD_Ryzen_7_1800X.jpg/1280px-AMD_Ryzen_7_1800X.jpg" alt="AMD Ryzen 7">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Elbrus-8S_processor.jpg/1280px-Elbrus-8S_processor.jpg" alt="Эльбрус-8С">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/14nm_vs_22nm_Intel_CPUs.jpg/800px-14nm_vs_22nm_Intel_CPUs.jpg" alt="Сравнение процессоров">
+    <img src="../PNG/intel_cpu.png" alt="Intel Core i7">
+    <img src="../PNG/amd_cpu.png" alt="AMD Ryzen 7">
+    <img src="../PNG/elbrus.png" alt="Эльбрус-8С">
+    <img src="../PNG/baikal.png" alt="Сравнение процессоров">
   </div>
 </main>
 
@@ -649,7 +707,7 @@
   };
   
   window.onclick = function(event) {
-    const modals = ['intel', 'amd', 'russian', 'cores', 'frequency', 'cache', 'process', 'architecture', 'tdp', 'intelSockets', 'amdSockets', 'russianSockets', 'nanometer', '3d', 'ai', 'heterogeneous', 'russianFuture'];
+    const modals = ['intel', 'amd', 'russian', 'cores', 'frequency', 'cache', 'process', 'architecture', 'tdp', 'manufacture', 'intelSockets', 'amdSockets', 'russianSockets', 'nanometer', '3d', 'ai', 'heterogeneous', 'russianFuture'];
     modals.forEach(function(id) {
       const modal = document.getElementById(id + 'Modal');
       if (event.target === modal) modal.style.display = 'none';
