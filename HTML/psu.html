@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Блоки питания - PSU | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .certificates-grid, .modularity-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек */
+    .feature-card, .certificate-card, .modularity-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .certificate-card:hover, .modularity-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .certificate-card h3, .modularity-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских производителей */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Центрирование */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .certificates-grid, .modularity-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .certificates-grid, .modularity-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Блоки питания (PSU)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое PSU?</a>
+  <a href="#manufacture">Как производят?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#characteristics">Характеристики</a>
+  <a href="#certificates">Сертификаты</a>
+  <a href="#modularity">Модульность</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ БЛОК ПИТАНИЯ ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое блок питания?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>⚡ "Сердце" компьютера</h3>
+        <p>Блок питания (PSU, Power Supply Unit) — устройство, преобразующее переменный ток из электросети (220В) в постоянный ток необходимого напряжения (+12В, +5В, +3.3В) для питания всех компонентов компьютера.</p>
+        <img src="../PNG/psu.png" alt="Блок питания">
+      </div>
+      <div class="info-card">
+        <h3>🔌 Как работает PSU?</h3>
+        <p>Блок питания преобразует переменный ток, выпрямляет, фильтрует и стабилизирует напряжение. Современные блоки используют импульсные схемы для высокого КПД и компактности.</p>
+        <img src="https://studfile.net/html/2706/237/html_t0L2JqHxNZ.hugq/htmlconvd-gJseGl_html_e6df669c15ac1f60.jpg" alt="Внутренности БП">
+        <p>Внутреннее устройство импульсного блока питания: трансформаторы, конденсаторы, радиаторы.</p>
+      </div>
+      <div class="info-card">
+        <h3>📊 Основные функции</h3>
+        <ul>
+          <li><strong>Преобразование напряжения</strong> — 220В AC → 12В/5В/3.3В DC</li>
+          <li><strong>Стабилизация</strong> — поддержание напряжения в допустимых пределах</li>
+          <li><strong>Защита</strong> — OVP, OCP, OPP, UVP, OTP, SCP — от перегрузок, КЗ, перегрева</li>
+          <li><strong>Электромагнитная фильтрация</strong> — подавление помех в сеть и из сети</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. КАК ИЗГОТАВЛИВАЮТ БП ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как производят блоки питания?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о производстве</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>Производство🔬</h3>
+    </div>
+  </div>
+
+  <!-- ========== 3. ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('seasonic')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Seasonic_logo.svg/1280px-Seasonic_logo.svg.png" alt="Seasonic">
+      <h3>Seasonic</h3>
+      <p>Один из лучших OEM-производителей</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('corsair')">
+      <img src="https://aaelectronics.ru/upload/iblock/d50/icbpnyceafw61bmobthnje1eds7oxm0x.png" alt="Corsair">
+      <h3>Corsair</h3>
+      <p>Популярные игровые серии (RM, HX, AX)</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('evga')">
+      <img src="https://i.playground.ru/p/IXrDH-c93apB-KAAg28bqQ.png" alt="EVGA">
+      <h3>EVGA</h3>
+      <p>Надёжные блоки с длительной гарантией</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('bequiet')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Be-quiet%21_Logo.svg/1280px-Be-quiet%21_Logo.svg.png" alt="be quiet!">
+      <h3>be quiet!</h3>
+      <p>Немецкое качество, тихие вентиляторы</p>
+      <span class="badge">🇩🇪 Германия</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('coolermaster')">
+      <img src="https://lip.radiostuff.ru/wa-data/public/shop/brands/21546/21546.png" alt="Cooler Master">
+      <h3>Cooler Master</h3>
+      <p>Бюджетные и средние серии</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('chieftec')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Chieftec_logo.svg/1280px-Chieftec_logo.svg.png" alt="Chieftec">
+      <h3>Chieftec</h3>
+      <p>Известны бюджетными решениями</p>
+      <span class="badge">🇸🇪 Швеция</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="seasonicModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('seasonic')">&times;</span>
+      <h3>⚡ Seasonic</h3>
+      <ul><li>Один из лучших OEM-производителей</li><li>Серии: Prime (флагман), Focus (средний), Core (бюджетный)</li><li>12 лет гарантии на Prime-серию</li><li>Сами производят платформы для Corsair/EVGA</li></ul>
+    </div>
+  </div>
+  <div id="corsairPsuModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('corsair')">&times;</span>
+      <h3>⚡ Corsair</h3>
+      <ul><li>Серии: AX (Premium), HX (профессиональная), RM/RMx (золотой стандарт), CV/CX (бюджет)</li><li>ОEM-производители: Seasonic, CWT, Great Wall</li><li>Модульные кабели с конденсаторами на Type 4/5</li></ul>
+    </div>
+  </div>
+  <div id="evgaPsuModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('evga')">&times;</span>
+      <h3>⚡ EVGA</h3>
+      <ul><li>Серии: SuperNOVA (T2, P2, G2/G3/G5/G6/G7), GD, BQ, BR</li><li>10+ лет гарантии на топ-серии</li><li>ОEM: Super Flower, Seasonic, FSP, Andyson</li></ul>
+    </div>
+  </div>
+  <div id="bequietModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('bequiet')">&times;</span>
+      <h3>⚡ be quiet!</h3>
+      <ul><li>Известны тихими вентиляторами Silent Wings</li><li>Серии: Dark Power (флагман), Straight Power (средняя), Pure Power (бюджет)</li><li>ОEM: FSP</li></ul>
+    </div>
+  </div>
+  <div id="coolermasterModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('coolermaster')">&times;</span>
+      <h3>⚡ Cooler Master</h3>
+      <ul><li>Серии: V Gold/Platinum (премиум), MWE Gold/Bronze (средняя), Elite (бюджет)</li><li>Широкий ассортимент, средняя цена</li></ul>
+    </div>
+  </div>
+  <div id="chieftecModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('chieftec')">&times;</span>
+      <h3>⚡ Chieftec</h3>
+      <ul><li>Гамма: Polaris (Gold), PowerPlay (Bronze), Smart (бюджет)</li><li>Популярны в СНГ</li><li>ОEM: CWT</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('power')">
+      <h3>💪 Мощность (Вт)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('efficiency')">
+      <h3>♻️ КПД (80 PLUS)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('rails')">
+      <h3>🔌 Количество линий +12V</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('connectors')">
+      <h3>🔌 Разъёмы</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('capacitors')">
+      <h3>⚙️ Конденсаторы</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('protections')">
+      <h3>🛡️ Защиты</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="powerModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('power')">&times;</span>
+      <h3>💪 Мощность (Вт)</h3>
+      <p>Суммарная мощность по линиям 12В. Определяет максимальную нагрузку компонентов.</p>
+      <ul><li>300-450 Вт — офисные ПК со встроенной графикой</li><li>500-650 Вт — игровые ПК с RTX 4060/4060 Ti/RX 7600</li><li>750-850 Вт — RTX 4070/4080, RX 7800 XT</li><li>1000+ Вт — топовые сборки с RTX 4090/RX 7900 XTX</li><li>1600+ Вт — мульти-GPU, серверы</li></ul>
+    </div>
+  </div>
+  <div id="efficiencyModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('efficiency')">&times;</span>
+      <h3>♻️ КПД (80 PLUS — подробнее ниже)</h3>
+      <p>Одна из важнейших характеристик. Подробнее в разделе сертификатов.</p>
+    </div>
+  </div>
+  <div id="railsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('rails')">&times;</span>
+      <h3>🔌 Количество линий +12V</h3>
+      <ul><li><strong>Single Rail</strong> — одна мощная линия (современный стандарт, удобно)</li><li><strong>Multi Rail</strong> — несколько линий с ограничением по току (безопаснее)</li><li>Современные БП чаще Single Rail с защитой OCP</li></ul>
+    </div>
+  </div>
+  <div id="connectorsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('connectors')">&times;</span>
+      <h3>🔌 Разъёмы PSU</h3>
+      <ul><li>24-pin — материнская плата</li><li>4+4 / 8-pin EPS — питание CPU</li><li>6+2 PCIe / 12VHPWR (12+4) — питание GPU</li><li>SATA, Molex — накопители, периферия</li></ul>
+    </div>
+  </div>
+  <div id="capacitorsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('capacitors')">&times;</span>
+      <h3>⚙️ Конденсаторы</h3>
+      <p>Качество конденсаторов влияет на стабильность и срок службы БП.</p>
+      <ul><li>Японские: Nippon Chemi-Con, Rubycon, Nichicon — лучшие</li><li>Тайваньские: Teapo, CapXon — бюджетные</li><li>Китайские — плохие (быстро высыхают)</li></ul>
+    </div>
+  </div>
+  <div id="protectionsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('protections')">&times;</span>
+      <h3>🛡️ Защиты в БП</h3>
+      <ul><li>OVP — защита от перенапряжения</li><li>OCP — защита от перегрузки по току</li><li>OPP/OLP — защита от превышения мощности</li><li>UVP — защита от понижения напряжения</li><li>OTP — защита от перегрева</li><li>SCP — защита от короткого замыкания</li></ul>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('manufacture')">&times;</span>
+      <h3>🔬 Как производят блоки питания</h3>
+      <ol>
+        <li>Разработка топологии (LLC резонансная у лучших БП)</li>
+        <li>Сборка PCB (пайка компонентов: трансформаторы, конденсаторы, MOSFET, контроллер)</li>
+        <li>Установка радиаторов и вентилятора</li>
+        <li>Финальная сборка в корпус</li>
+        <li>Тестирование на нагрузочных стендах (кросс-нагрузка, КПД, пульсации)</li>
+        <li>Сертификация 80 PLUS</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ========== 5. СЕРТИФИКАТЫ 80 PLUS ========== -->
+  <h2 id="certificates" class="section-title" data-aos="fade-up">🏅 Сертификаты 80 PLUS</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="certificates-grid" data-aos="fade-up">
+    <div class="certificate-card" onclick="showCertificate('white')">
+      <h3>⚪ 80 PLUS</h3>
+    </div>
+    <div class="certificate-card" onclick="showCertificate('bronze')">
+      <h3>🥉 Bronze</h3>
+    </div>
+    <div class="certificate-card" onclick="showCertificate('silver')">
+      <h3>🥈 Silver</h3>
+    </div>
+    <div class="certificate-card" onclick="showCertificate('gold')">
+      <h3>🥇 Gold</h3>
+    </div>
+    <div class="certificate-card" onclick="showCertificate('platinum')">
+      <h3>⚪ Platinum</h3>
+    </div>
+    <div class="certificate-card" onclick="showCertificate('titanium')">
+      <h3>⚫ Titanium</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для сертификатов -->
+  <div id="whiteModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('white')">&times;</span>
+      <h3>⚪ 80 PLUS (White)</h3>
+      <p>КПД: 80% при 20/50/100% нагрузке. Устаревший, редкий стандарт.</p>
+    </div>
+  </div>
+  <div id="bronzeModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('bronze')">&times;</span>
+      <h3>🥉 80 PLUS Bronze</h3>
+      <p>КПД: 82% / 85% / 82% (115V). Самый популярный бюджетный стандарт.</p>
+    </div>
+  </div>
+  <div id="silverModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('silver')">&times;</span>
+      <h3>🥈 80 PLUS Silver</h3>
+      <p>КПД: 85% / 88% / 85%. Редкий стандарт (редко встречается в магазинах).</p>
+    </div>
+  </div>
+  <div id="goldModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('gold')">&times;</span>
+      <h3>🥇 80 PLUS Gold</h3>
+      <p>КПД: 87% / 90% / 87%. Золотой стандарт для среднего и высокого сегмента.</p>
+    </div>
+  </div>
+  <div id="platinumModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('platinum')">&times;</span>
+      <h3>⚪ 80 PLUS Platinum</h3>
+      <p>КПД: 90% / 92% / 89%. Премиум-класс, низкие пульсации, мало греется.</p>
+    </div>
+  </div>
+  <div id="titaniumModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('titanium')">&times;</span>
+      <h3>⚫ 80 PLUS Titanium</h3>
+      <p>КПД: 90% / 94% / 91% (115V). Максимальная эффективность, минимальные потери.</p>
+    </div>
+  </div>
+
+  <!-- ========== 6. МОДУЛЬНОСТЬ ========== -->
+  <h2 id="modularity" class="section-title" data-aos="fade-up">🔌 Модульность кабелей</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="modularity-grid" data-aos="fade-up">
+    <div class="modularity-card" onclick="showModular('nonmodular')">
+      <h3>🔌 Non-Modular</h3>
+    </div>
+    <div class="modularity-card" onclick="showModular('semi')">
+      <h3>🔌 Semi-Modular</h3>
+    </div>
+    <div class="modularity-card" onclick="showModular('fully')">
+      <h3>🔌 Fully Modular</h3>
+    </div>
+  </div>
+
+  <div id="nonmodularModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('nonmodular')">&times;</span>
+      <h3>🔌 Non‑Modular (немодульный)</h3>
+      <p>Все кабели припаяны. Дешевле, но лишние провода нужно прятать в корпусе. Подходит для бюджетных сборок.</p>
+    </div>
+  </div>
+  <div id="semiModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('semi')">&times;</span>
+      <h3>🔌 Semi‑Modular (полумодульный)</h3>
+      <p>Основные кабели (24-pin, CPU) впаяны, остальные (PCIe, SATA) подключаются по необходимости. Хороший баланс цены и удобства.</p>
+    </div>
+  </div>
+  <div id="fullyModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('fully')">&times;</span>
+      <h3>🔌 Fully Modular (полностью модульный)</h3>
+      <p>Все кабели отсоединяются. Удобный монтаж, лучший воздушный поток, эстетика. Рекомендуется для дорогих сборок.</p>
+    </div>
+  </div>
+
+  <!-- ========== 7. ОТЕЧЕСТВЕННЫЕ ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные бренды и сборка</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 IRU (ООО «Айрюс», Новосибирск)</h3>
+    <ul>
+      <li>Сборка БП на российском заводе под госзаказ</li>
+      <li>Модели мощностью 300-800 Вт, 80 PLUS Bronze/Gold</li>
+      <li>Используются в госсекторе и офисах</li>
+    </ul>
+    
+    <h3>🔶 Depo Computers</h3>
+    <ul>
+      <li>БП под собственным брендом для рабочих станций и серверов</li>
+      <li>Сборка из компонентов ведущих OEM (CWT, FSP)</li>
+    </ul>
+    
+    <h3>🔹 Kraftway</h3>
+    <ul>
+      <li>Системные блоки, серверы с БП собственной маркировки</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Российские Федеральные проекты — создание отечественных импульсных БП для объектов критической инфраструктуры в рамках импортозамещения.
+    </p>
+  </div>
+
+  <!-- ========== 8. КАК ВЫБРАТЬ БП ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать блок питания?</h2>
+  
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <ul>
+      <li><strong>Офисный ПК:</strong> 300-400 Вт, 80 PLUS Bronze, Non-Modular</li>
+      <li><strong>Игровой ПК (бюджет):</strong> 500-650 Вт, 80 PLUS Bronze/Gold, Semi-Modular</li>
+      <li><strong>Игровой ПК (премиум):</strong> 750-1000 Вт, 80 PLUS Gold/Platinum, Fully Modular</li>
+      <li><strong>Рабочая станция/майнинг:</strong> 1000-1600 Вт, Platinum/Titanium, Fully Modular</li>
+    </ul>
+	<div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Калькулятор мощности:</strong> Суммируйте TDP компонентов + 20-30% запаса</li>
+      <li><strong>Сертификат:</strong> Не берите ниже Bronze, предпочтительнее Gold</li>
+      <li><strong>Модульность:</strong> Для дорогих сборок полностью модульный</li>
+      <li><strong>Длина кабелей:</strong> Учитывайте размер корпуса</li>
+      <li><strong>Бренд + OEM:</strong> Лучшие производители: Seasonic, Super Flower, CWT</li>
+    </ul>
+  </div>
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Не экономьте на БП! Он питает все компоненты.</li>
+      <li>Дешёвые БП могут иметь завышенную заявленную мощность (800W Peak, а не реальные 800W Continuous).</li>
+      <li>Японские конденсаторы важнее громкого бренда.</li>
+      <li>Учитывайте «длину» корпуса БП (ATX/SFX).</li>
+      <li>Проверяйте, сколько коннекторов PCIe нужно вашей видеокарте (12VHPWR для RTX 40xx).</li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- ========== 9. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение блоков питания</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Модель</th><th>Мощность</th><th>Сертификат</th><th>Модульность</th><th>Вентилятор</th><th>Цена (ориентир)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Seasonic Prime TX-1600</strong></td><td>1600 Вт</td><td>Titanium</td><td>Fully</td><td>135mm FDB</td><td>~$600</td></tr>
+        <tr><td><strong>Corsair RM1000e</strong></td><td>1000 Вт</td><td>Gold</td><td>Fully</td><td>120mm</td><td>~$160</td></tr>
+        <tr><td><strong>be quiet! Dark Power 13 850W</strong></td><td>850 Вт</td><td>Platinum</td><td>Fully</td><td>Silent Wings 120mm</td><td>~$250</td></tr>
+        <tr><td><strong>Cooler Master MWE Gold 750 V2</strong></td><td>750 Вт</td><td>Gold</td><td>Fully</td><td>120mm</td><td>~$110</td></tr>
+        <tr><td><strong>EVGA SuperNOVA 650 G6</strong></td><td>650 Вт</td><td>Gold</td><td>Fully</td><td>135mm FDB</td><td>~$100</td></tr>
+        <tr><td><strong>Chieftec PowerPlay 750W</strong></td><td>750 Вт</td><td>Bronze</td><td>Semi</td><td>120mm</td><td>~$80</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 10. БУДУЩЕЕ БП ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее блоков питания</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('12vhpwr')">
+      <h3>🔌 12VHPWR / 12V-2×6</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('gan')">
+      <h3>⚡ GaN транзисторы</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('atxv3')">
+      <h3>📏 ATX 3.0 / 3.1</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('digital')">
+      <h3>💻 Цифровое управление</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('titanium2')">
+      <h3>⚙️ Titanium следующего поколения</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="12vhpwrModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('12vhpwr')">&times;</span>
+      <h3>🔌 12VHPWR / 12V-2×6</h3>
+      <p>Стандарт питания для видеокарт нового поколения (RTX 40xx). До 600 Вт по одному кабелю. Улучшенная версия 12V-2×6 (2024) исправляет проблемы с перегревом.</p>
+    </div>
+  </div>
+  <div id="ganModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('gan')">&times;</span>
+      <h3>⚡ GaN (нитрид галлия)</h3>
+      <p>Замена традиционным MOSFET. GaN транзисторы компактнее, эффективнее (КПД >94%), работают при больших частотах. Уже появляются в компактных PSU, активно внедряются в высокопроизводительные модели.</p>
+    </div>
+  </div>
+  <div id="atxv3Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('atxv3')">&times;</span>
+      <h3>📏 ATX 3.0 / 3.1</h3>
+      <p>Новые стандарты от Intel для БП. Включают поддержку 12VHPWR, улучшенную выдержку пиковых нагрузок (до 200% микровыбросов). ATX 3.1 уточняет спецификации коннекторов.</p>
+    </div>
+  </div>
+  <div id="digitalModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('digital')">&times;</span>
+      <h3>💻 Цифровое управление</h3>
+      <p>Подключение БП к ПК через USB. Программный мониторинг напряжения, токов, КПД, температур. Мониторинг через приложения Corsair Link / Seasonic Pro.</p>
+    </div>
+  </div>
+  <div id="titanium2Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('titanium2')">&times;</span>
+      <h3>⚙️ Titanium следующего поколения</h3>
+      <p>Planned 80 PLUS Titanium для 230V (КПД до 96%). Использование SiC и GaN компонентов, ещё более компактные дизайны.</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея блоков питания</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="../PNG/psu_atx.png" alt="ATX блок питания">
+    <img src="../PNG/psu_itx.png" alt="SFX блок питания">
+    <img src="../PNG/psu_cables.png" alt="Модульные кабели">
+    <img src="../PNG/psu_inside.png" alt="Внутренности БП">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции
+  function showFeature(feature) {
+    document.getElementById(feature + 'Modal').style.display = 'block';
+  }
+  
+  function showCertificate(cert) {
+    document.getElementById(cert + 'Modal').style.display = 'block';
+  }
+  
+  function showModular(mod) {
+    document.getElementById(mod + 'Modal').style.display = 'block';
+  }
+  
+  function showFuture(future) {
+    document.getElementById(future + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для производителей с правильными ID
+  window.showSeries = function(manufacturer) {
+    const modalIds = {
+      'seasonic': 'seasonicModal',
+      'corsair': 'corsairPsuModal',
+      'evga': 'evgaPsuModal',
+      'bequiet': 'bequietModal',
+      'coolermaster': 'coolermasterModal',
+      'chieftec': 'chieftecModal'
+    };
+    const modalId = modalIds[manufacturer];
+    if (modalId && document.getElementById(modalId)) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+  };
+  
+  window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId + 'Modal');
+    if (modal) modal.style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = [
+      'seasonicModal', 'corsairPsuModal', 'evgaPsuModal', 'bequietModal', 
+      'coolermasterModal', 'chieftecModal',
+      'powerModal', 'efficiencyModal', 'railsModal', 'connectorsModal', 
+      'capacitorsModal', 'protectionsModal',
+      'manufactureModal', 
+      'whiteModal', 'bronzeModal', 'silverModal', 'goldModal', 'platinumModal', 'titaniumModal',
+      'nonmodularModal', 'semiModal', 'fullyModal',
+      '12vhpwrModal', 'ganModal', 'atxv3Modal', 'digitalModal', 'titanium2Modal'
+    ];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id);
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+  
+  // Функция для увеличения изображения при клике
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.info-card img, .image-gallery img').forEach(function(img) {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const modalDiv = document.createElement('div');
+        modalDiv.style.position = 'fixed';
+        modalDiv.style.top = '0';
+        modalDiv.style.left = '0';
+        modalDiv.style.width = '100%';
+        modalDiv.style.height = '100%';
+        modalDiv.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        modalDiv.style.zIndex = '10000';
+        modalDiv.style.display = 'flex';
+        modalDiv.style.alignItems = 'center';
+        modalDiv.style.justifyContent = 'center';
+        modalDiv.style.cursor = 'pointer';
+        
+        const fullImg = document.createElement('img');
+        fullImg.src = this.src;
+        fullImg.style.maxWidth = '90%';
+        fullImg.style.maxHeight = '90%';
+        fullImg.style.borderRadius = '8px';
+        fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+        
+        modalDiv.appendChild(fullImg);
+        document.body.appendChild(modalDiv);
+        
+        modalDiv.addEventListener('click', function() {
+          document.body.removeChild(modalDiv);
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

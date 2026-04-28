@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Материнские платы - Motherboard | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .chipsets-grid, .formfactors-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек */
+    .feature-card, .chipset-card, .formfactor-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .chipset-card:hover, .formfactor-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .chipset-card h3, .formfactor-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских производителей */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Центрирование */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .chipsets-grid, .formfactors-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .chipsets-grid, .formfactors-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Материнские платы (Motherboard)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое материнская плата?</a>
+  <a href="#manufacture">Как производят?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#characteristics">Характеристики</a>
+  <a href="#formfactors">Форм-факторы</a>
+  <a href="#chipsets">Чипсеты</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ МАТЕРИНСКАЯ ПЛАТА ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое материнская плата?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>🔌 "Основа" компьютера</h3>
+        <p>Материнская плата (Motherboard) — это основная печатная плата, к которой подключаются все компоненты компьютера: процессор, оперативная память, видеокарта, накопители и периферия.</p>
+        <img src="../PNG/motherboard.png" alt="Материнская плата">
+      </div>
+      <div class="info-card">
+        <h3>⚡ Как устроена материнская плата?</h3>
+        <p>На материнской плате размещены сокет для процессора, слоты для RAM, разъёмы PCIe для видеокарт и других устройств, чипсет, разъёмы питания, SATA порты, M.2 слоты, а также множество других компонентов.</p>
+        <img src="https://cf4.ppt-online.org/files4/slide/o/ohz72CAG8LapuZsdNixJ6Q304WlOnkmTg1yDUe/slide-5.jpg" alt="Схема материнской платы">
+        <p>Схематическое устройство материнской платы: сокет, чипсет, слоты PCIe и RAM.</p>
+      </div>
+      <div class="info-card">
+        <h3>📊 Основные функции</h3>
+        <ul>
+          <li><strong>Объединение компонентов</strong> — физическое подключение CPU, RAM, GPU и накопителей</li>
+          <li><strong>Питание</strong> — распределение электроэнергии по всем компонентам (VRM)</li>
+          <li><strong>Взаимодействие</strong> — обеспечение обмена данными через шины (DMI, PCIe)</li>
+          <li><strong>Расширение</strong> — возможность подключения дополнительных устройств через PCIe, SATA, USB</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. КАК ИЗГОТАВЛИВАЮТ МАТЕРИНСКИЕ ПЛАТЫ ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как производят материнские платы?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о производстве</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>Производство🔬</h3>
+    </div>
+  </div>
+
+  <!-- ========== 3. ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('asus')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/1920px-ASUS_Logo.svg.png" alt="ASUS">
+      <h3>ASUS</h3>
+      <p>Лидер по качеству и инновациям</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('msi')">
+      <img src="https://upload.wikimedia.org/wikipedia/ru/thumb/1/10/Логотип_MSI.png/960px-Логотип_MSI.png" alt="MSI">
+      <h3>MSI</h3>
+      <p>Надёжные игровые решения</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('gigabyte')">
+      <img src="https://sankt-peterburg.kom-support.ru/src/img/brands/temp_dir/6364faa363b1c.png" alt="Gigabyte">
+      <h3>Gigabyte</h3>
+      <p>Отличное соотношение цена/качество</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+  </div>
+
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('asrock')">
+      <img src="https://belhard.shop/upload/iblock/97d/fkqx6lp3w4epigblrll85u5e0wv31hbd/ASRock-logo.png" alt="ASRock">
+      <h3>ASRock</h3>
+      <p>Бюджетные и серверные решения</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('biostar')">
+      <img src="https://www.biostarnpi.com/wp-content/uploads/2024/09/Biostar-Logo.png" alt="Biostar">
+      <h3>Biostar</h3>
+      <p>Доступные решения</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('evga')">
+      <img src="https://i.playground.ru/p/IXrDH-c93apB-KAAg28bqQ.png" alt="EVGA">
+      <h3>EVGA</h3>
+      <p>Премиальные платы для оверклокинга</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="asusModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('asus')">&times;</span>
+      <h3>🟦 ASUS</h3>
+      <ul><li>Серии: ROG Maximus (флагман), ROG Strix (игровые), TUF Gaming (надёжные), Prime (бюджетные), ProArt/WS (профессиональные)</li><li>Известен качественной элементной базой</li></ul>
+    </div>
+  </div>
+  <div id="msiModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('msi')">&times;</span>
+      <h3>🟥 MSI</h3>
+      <ul><li>Серии: MEG (флагман), MPG (игровые), MAG (надёжные), PRO (бюджетные)</li><li>Отличные VRM для разгона</li></ul>
+    </div>
+  </div>
+  <div id="gigabyteModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('gigabyte')">&times;</span>
+      <h3>🟩 Gigabyte</h3>
+      <ul><li>Серии: Aorus (флагман), Aero (профессиональные), Gaming (игровые), UD (бюджетные)</li><li>Хорошая сборка и поддержка</li></ul>
+    </div>
+  </div>
+  <div id="asrockModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('asrock')">&times;</span>
+      <h3>🟦 ASRock</h3>
+      <ul><li>Серии: Taichi (флагман), Phantom Gaming (игровые), Steel Legend (надёжные), Pro (бюджетные)</li><li>Дочерняя компания ASUS</li></ul>
+    </div>
+  </div>
+  <div id="biostarModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('biostar')">&times;</span>
+      <h3>🟩 Biostar</h3>
+      <ul><li>Серии: Racing (игровые), Hi-Fi (мультимедиа), Industrial (промышленные)</li><li>Бюджетный сегмент</li></ul>
+    </div>
+  </div>
+  <div id="evgaModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('evga')">&times;</span>
+      <h3>🟨 EVGA</h3>
+      <ul><li>Серии: KINGPIN (рекорды разгона), DARK (премиум), FTW (игровые)</li><li>Вышел из рынка материнских плат в 2023</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('socket')">
+      <h3>🔌 Сокет</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('chipset')">
+      <h3>💾 Чипсет</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('vrm')">
+      <h3>⚡ VRM</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('pcie')">
+      <h3>🔗 PCIe слоты</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('ramslots')">
+      <h3>💿 Слоты RAM</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('ports')">
+      <h3>🔌 Порты ввода-вывода</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="socketModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('socket')">&times;</span>
+      <h3>🔌 Сокет процессора</h3>
+      <ul><li><strong>Intel:</strong> LGA1851 (2024+), LGA1700 (12-14 gen), LGA1200, LGA1151v2</li><li><strong>AMD:</strong> AM5 (Ryzen 7000+), AM4 (Ryzen 1000-5000), sTR5 (Threadripper)</li><li>Сокет определяет совместимость с процессором</li></ul>
+    </div>
+  </div>
+  <div id="chipsetModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('chipset')">&times;</span>
+      <h3>💾 Чипсет (подробнее ниже)</h3>
+      <p>Контроллер периферии. Определяет возможности платы: разгон, PCIe 5.0, количество портов USB/SATA.</p>
+    </div>
+  </div>
+  <div id="vrmModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('vrm')">&times;</span>
+      <h3>⚡ VRM (Voltage Regulator Module)</h3>
+      <p>Преобразует напряжение 12В от БП в напряжение для CPU (1.2-1.5В). Характеристики: фазы питания, контроллеры, дроссели, MOSFET. Качественный VRM необходим для мощных CPU и разгона.</p>
+    </div>
+  </div>
+  <div id="pcieModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('pcie')">&times;</span>
+      <h3>🔗 PCIe слоты</h3>
+      <ul><li>PCIe x16 — для видеокарт</li><li>PCIe x4/x1 — для карт расширения (Wi-Fi, звук, RAID контроллеры)</li><li>Версии: PCIe 5.0 (160 ГБ/с), 4.0 (64 ГБ/с), 3.0 (32 ГБ/с)</li></ul>
+    </div>
+  </div>
+  <div id="ramslotsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ramslots')">&times;</span>
+      <h3>💿 Слоты RAM</h3>
+      <p>Количество: 2 (mini/micro) , 4 (ATX), 8 (HEDT/Server). Тип: DDR4 или DDR5. Поддержка двухканального/четырёхканального режима.</p>
+    </div>
+  </div>
+  <div id="portsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ports')">&times;</span>
+      <h3>🔌 Порты ввода-вывода</h3>
+      <ul><li><strong>USB:</strong> 2.0, 3.2, Type-C, USB4</li><li><strong>Сетевые:</strong> Gigabit Ethernet, 2.5GbE, 5GbE</li><li><strong>Видеовыходы:</strong> HDMI, DisplayPort (для CPU со встроенной графикой)</li><li><strong>Аудио:</strong> 3.5 мм Jack, оптический S/PDIF</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 5. ФОРМ-ФАКТОРЫ ========== -->
+  <h2 id="formfactors" class="section-title" data-aos="fade-up">📏 Форм-факторы материнских плат</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="formfactors-grid" data-aos="fade-up">
+    <div class="formfactor-card" onclick="showFormfactor('atx')">
+      <h3>📏 ATX</h3>
+    </div>
+    <div class="formfactor-card" onclick="showFormfactor('matx')">
+      <h3>📏 Micro-ATX</h3>
+    </div>
+    <div class="formfactor-card" onclick="showFormfactor('itx')">
+      <h3>📏 Mini-ITX</h3>
+    </div>
+    <div class="formfactor-card" onclick="showFormfactor('eAtx')">
+      <h3>📏 E-ATX</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для форм-факторов -->
+  <div id="atxModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('atx')">&times;</span>
+      <h3>📏 ATX (305×244 мм)</h3>
+      <p>Стандартный размер для настольных ПК. 4 слота RAM, 2-3 слота PCIe x16, 2-4 слота PCIe x1, 6-8 портов SATA. Самый популярный.</p>
+    </div>
+  </div>
+  <div id="matxModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('matx')">&times;</span>
+      <h3>📏 Micro-ATX (244×244 мм)</h3>
+      <p>Уменьшенный ATX. 2-4 слота RAM, 1-2 PCIe x16, 1-2 PCIe x1, 4-6 портов SATA. Оптимален для ПК среднего размера.</p>
+    </div>
+  </div>
+  <div id="itxModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('itx')">&times;</span>
+      <h3>📏 Mini-ITX (170×170 мм)</h3>
+      <p>Компактный для маленьких корпусов. 2 слота RAM, 1 PCIe x16, 4 порта SATA. Ограниченное расширение, часто дороже из-за плотной компоновки.</p>
+    </div>
+  </div>
+  <div id="eAtxModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('eAtx')">&times;</span>
+      <h3>📏 E-ATX (305×330 мм)</h3>
+      <p>Расширенный для энтузиастов и серверов. 8 слотов RAM, до 7 PCIe слотов, улучшенный VRM. Требует большие корпуса.</p>
+    </div>
+  </div>
+
+  <!-- ========== 6. ЧИПСЕТЫ ========== -->
+  <h2 id="chipsets" class="section-title" data-aos="fade-up">💾 Чипсеты материнских плат</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="chipsets-grid" data-aos="fade-up">
+    <div class="chipset-card" onclick="showChipset('intelZ')">
+      <h3>🔹 Intel Z-серия</h3>
+    </div>
+    <div class="chipset-card" onclick="showChipset('intelB')">
+      <h3>🔹 Intel B-серия</h3>
+    </div>
+    <div class="chipset-card" onclick="showChipset('intelH')">
+      <h3>🔹 Intel H-серия</h3>
+    </div>
+    <div class="chipset-card" onclick="showChipset('amdX')">
+      <h3>🔸 AMD X-серия</h3>
+    </div>
+    <div class="chipset-card" onclick="showChipset('amdB')">
+      <h3>🔸 AMD B-серия</h3>
+    </div>
+    <div class="chipset-card" onclick="showChipset('amdA')">
+      <h3>🔸 AMD A-серия</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для чипсетов -->
+  <div id="intelZModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('intelZ')">&times;</span>
+      <h3>🔹 Intel Z-серия (Z690, Z790, Z890)</h3>
+      <ul><li>Флагманские чипсеты</li><li>Разгон процессоров K-серии</li><li>Поддержка PCIe 5.0</li><li>Больше линий PCIe и USB</li><li>Для геймеров и энтузиастов</li></ul>
+    </div>
+  </div>
+  <div id="intelBModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('intelB')">&times;</span>
+      <h3>🔹 Intel B-серия (B660, B760, B860)</h3>
+      <ul><li>Средний сегмент</li><li>Разгон памяти</li><li>Ограниченный разгон CPU (B660+)</li><li>Оптимальный выбор для большинства</li></ul>
+    </div>
+  </div>
+  <div id="intelHModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('intelH')">&times;</span>
+      <h3>🔹 Intel H-серия (H610, H710)</h3>
+      <ul><li>Бюджетный сегмент</li><li>Нет разгона</li><li>Ограниченные возможности</li><li>Для офисных ПК</li></ul>
+    </div>
+  </div>
+  <div id="amdXModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('amdX')">&times;</span>
+      <h3>🔸 AMD X-серия (X570, X670, X670E, X870E)</h3>
+      <ul><li>Флагманские чипсеты</li><li>PCIe 5.0 (на X670E)</li><li>Разгон любых процессоров</li><li>Для энтузиастов</li></ul>
+    </div>
+  </div>
+  <div id="amdBModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('amdB')">&times;</span>
+      <h3>🔸 AMD B-серия (B550, B650, B650E)</h3>
+      <ul><li>Средний сегмент (золотая середина)</li><li>Разгон процессоров</li><li>PCIe 4.0/5.0</li><li>Лучший выбор для большинства</li></ul>
+    </div>
+  </div>
+  <div id="amdAModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('amdA')">&times;</span>
+      <h3>🔸 AMD A-серия (A620)</h3>
+      <ul><li>Бюджетный сегмент</li><li>Нет разгона CPU</li><li>Минимальная функциональность</li><li>Для офисных ПК</li></ul>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('manufacture')">&times;</span>
+      <h3>🔬 Как производят материнские платы</h3>
+      <ol>
+        <li><strong>Проектирование PCB</strong> — многослойная печатная плата (до 10 слоев)</li>
+        <li><strong>Производство PCB</strong> — травление, сверление, нанесение маски</li>
+        <li><strong>Монтаж компонентов</strong> — пайка SMD-компонентов автоматами</li>
+        <li><strong>Установка CPU Socket</strong> — монтируется на плату через BGA или LGA механику</li>
+        <li><strong>Прошивка BIOS</strong> — запись прошивки в микросхему SPI</li>
+        <li><strong>Тестирование</strong> — проверка всех портов и компонентов</li>
+        <li><strong>Упаковка</strong> — комплектация: плата, шлейфы SATA, заглушка ввода-вывода</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ========== 7. ОТЕЧЕСТВЕННЫЕ ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные производители</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 IRU (ООО «Айрюс», Новосибирск)</h3>
+    <ul>
+      <li>Сборка материнских плат на российском оборудовании</li>
+      <li>Модели Micro-ATX и Mini-ITX на чипсетах Intel H610/B760</li>
+      <li>Используются в госсекторе, образовании, офисах</li>
+    </ul>
+    
+    <h3>🔶 Kraftway (Тверь)</h3>
+    <ul>
+      <li>Системные платы для ноутбуков, рабочих станций и серверов</li>
+      <li>Проекты под госзаказ</li>
+    </ul>
+    
+    <h3>🔹 DEPO Computers</h3>
+    <ul>
+      <li>Сборка готовых ПК и рабочие станции</li>
+      <li>Интеграция с отечественными платами и компонентами</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Собственная элементная база для материнских плат активно развивается в рамках импортозамещения. Платы собраны на отечественных предприятиях с использованием импортных чипсетов, но российских компонентов становится больше.
+    </p>
+  </div>
+
+  <!-- ========== 8. КАК ВЫБРАТЬ МАТЕРИНСКУЮ ПЛАТУ ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать материнскую плату?</h2>
+  
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <ul>
+      <li><strong>Офисный ПК:</strong> Micro-ATX B760/H610 (Intel) или A620 (AMD)</li>
+      <li><strong>Игровой ПК:</strong> ATX Z790/Z890 (Intel) или B650/X670 (AMD)</li>
+      <li><strong>Рабочая станция:</strong> ATX/E-ATX W680 (Intel) или TRX50 (AMD Threadripper)</li>
+      <li><strong>Сервер:</strong> ATX/E-ATX W680 (Intel) или B650/X670 с ECC поддержкой</li>
+    </ul>
+	<div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Офис/интернет:</strong> B760/H610 + Intel Core i5/i3</li>
+      <li><strong>Игровой ПК (бюджетный):</strong> B760 + Intel Core i5 / B650 + Ryzen 5</li>
+      <li><strong>Игровой ПК (премиум):</strong> Z790 + i7/i9 / X670 + Ryzen 7/9</li>
+      <li><strong>Компактный ПК:</strong> B760/B650 + Mini-ITX</li>
+      <li><strong>Сервер/СУБД:</strong> W680 + ECC память</li>
+    </ul>
+  </div>
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Всегда проверяйте совместимость сокета и чипсета с процессором</li>
+      <li>Хороший VRM критичен для мощных CPU (i7/i9/Ryzen 7/9)</li>
+      <li>Изучите количество портов USB и M.2 (NVMe)</li>
+      <li>Не берите дорогую материнскую плату под слабый процессор и наоборот</li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- ========== 9. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение чипсетов Intel и AMD</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Характеристика</th><th>Intel Z790</th><th>Intel B760</th><th>AMD X670E</th><th>AMD B650</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Разгон CPU</td><td>✅ Да</td><td>❌ Нет</td><td>✅ Да</td><td>✅ Да</td></tr>
+        <tr><td>Разгон RAM</td><td colspan="2">✅ Да</td><td colspan="2">✅ Да</td></tr>
+        <tr><td>PCIe 5.0 x16</td><td>✅ Да</td><td>❌ Нет</td><td>✅ Да</td><td>❌ Нет</td></tr>
+        <tr><td>PCIe 5.0 M.2</td><td>✅ Да</td><td>✅ Да</td><td>✅ Да</td><td>✅ Да</td></tr>
+        <tr><td>Макс. линий PCIe</td><td>28</td><td>14</td><td>44</td><td>36</td></tr>
+        <tr><td>Поддержка USB 3.2 Gen 2x2</td><td>✅ Да</td><td>✅ Да</td><td>✅ Да</td><td>✅ Да</td></tr>
+        <tr><td>Типовая цена (плата)</td><td>$200-500+</td><td>$100-200</td><td>$250-600+</td><td>$120-250</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 10. БУДУЩЕЕ МАТЕРИНСКИХ ПЛАТ ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее материнских плат</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('camm')">
+      <h3>💿 CAMM память</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('pcie6')">
+      <h3>⚡ PCIe 6.0</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('glueless')">
+      <h3>🔗 Бесчипсетные системы</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('backside')">
+      <h3>🔌 Обратный монтаж</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('standardization')">
+      <h3>🔧 Стандартизация подключения GPU</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="cammModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('camm')">&times;</span>
+      <h3>💿 CAMM (Compression Attached Memory Module)</h3>
+      <p>Новый стандарт оперативной памяти. Тонкий (1.5 мм), компактный модуль для ноутбуков/компактных ПК. Используется в рабочих станциях Dell Precision.</p>
+    </div>
+  </div>
+  <div id="pcie6Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('pcie6')">&times;</span>
+      <h3>⚡ PCIe 6.0 (2025-2026)</h3>
+      <p>Удвоение пропускной способности до 256 ГБ/с. Обратная совместимость, новые кодировки для лучшей целостности сигнала.</p>
+    </div>
+  </div>
+  <div id="gluelessModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('glueless')">&times;</span>
+      <h3>🔗 Бесчипсетные системы</h3>
+      <p>Интеграция чипсета в процессор (AMD RYZEN 7000 уже имеет базовый чипсет на кристалле). Упрощает плату, уменьшает задержки.</p>
+    </div>
+  </div>
+  <div id="backsideModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('backside')">&times;</span>
+      <h3>🔌 Обратный монтаж коннекторов</h3>
+      <p>ASUS и другие производители экспериментируют с расположением разъёмов питания и передней панели на обратной стороне платы (BTF). Эстетика и удобство сборки.</p>
+    </div>
+  </div>
+  <div id="standardizationModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('standardization')">&times;</span>
+      <h3>🔧 Стандартизация подключения GPU</h3>
+      <p>Возможный отказ от PCIe слота в пользу бесшлейфовых подключений на материнской плате для графических карт (PCIe Gen 6 с кабелями).</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея материнских плат</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="../PNG/mb_atx.png" alt="ATX материнская плата">
+    <img src="../PNG/mb_matx.png" alt="Micro-ATX материнская плата">
+    <img src="../PNG/mb_itx.png" alt="Mini-ITX материнская плата">
+    <img src="../PNG/mb_vrm.png" alt="VRM на материнской плате">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции
+  function showFeature(feature) {
+    document.getElementById(feature + 'Modal').style.display = 'block';
+  }
+  
+  function showFormfactor(formfactor) {
+    document.getElementById(formfactor + 'Modal').style.display = 'block';
+  }
+  
+  function showChipset(chipset) {
+    document.getElementById(chipset + 'Modal').style.display = 'block';
+  }
+  
+  function showFuture(future) {
+    document.getElementById(future + 'Modal').style.display = 'block';
+  }
+  
+  window.showSeries = function(manufacturer) {
+    document.getElementById(manufacturer + 'Modal').style.display = 'block';
+  };
+  
+  window.closeModal = function(modalId) {
+    document.getElementById(modalId + 'Modal').style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = ['asus', 'msi', 'gigabyte', 'asrock', 'biostar', 'evga', 
+                    'socket', 'chipset', 'vrm', 'pcie', 'ramslots', 'ports', 
+                    'manufacture', 'atx', 'matx', 'itx', 'eAtx', 
+                    'intelZ', 'intelB', 'intelH', 'amdX', 'amdB', 'amdA',
+                    'camm', 'pcie6', 'glueless', 'backside', 'standardization'];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id + 'Modal');
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+  // Функция для увеличения изображения при клике
+  document.querySelectorAll('.info-card img, .image-gallery img').forEach(img => {
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100%';
+      modal.style.height = '100%';
+      modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+      modal.style.zIndex = '9999';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.cursor = 'pointer';
+      
+      const fullImg = document.createElement('img');
+      fullImg.src = this.src;
+      fullImg.style.maxWidth = '90%';
+      fullImg.style.maxHeight = '90%';
+      fullImg.style.borderRadius = '8px';
+      fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+      
+      modal.appendChild(fullImg);
+      document.body.appendChild(modal);
+      
+      modal.addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

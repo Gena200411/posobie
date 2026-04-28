@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Накопители данных - Storage | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .types-grid, .interfaces-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек */
+    .feature-card, .type-card, .interface-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .type-card:hover, .interface-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .type-card h3, .interface-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских производителей */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Центрирование */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .types-grid, .interfaces-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .types-grid, .interfaces-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Накопители данных (HDD / SSD)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое Storage?</a>
+  <a href="#manufacture">Как производят?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#characteristics">Характеристики</a>
+  <a href="#types">Типы накопителей</a>
+  <a href="#interfaces">Интерфейсы</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ НАКОПИТЕЛЬ ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое накопитель данных?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>💾 "Долговременная память" ПК</h3>
+        <p>Накопитель данных (Storage) — устройство для долговременного хранения информации. В отличие от оперативной памяти, данные сохраняются после выключения питания.</p>
+        <img src="../PNG/hdd.png" alt="Накопитель">
+      </div>
+      <div class="info-card">
+        <h3>⚡ Принципы работы</h3>
+        <p><strong>HDD (Hard Disk Drive):</strong> магнитные пластины + считывающие головки (механический).<br>
+        <strong>SSD (Solid‑State Drive):</strong> ячейки флэш-памяти NAND.</p>
+        <img src="https://avatars.mds.yandex.net/i?id=dadea128a3993acf72c431992f7d1ec27104f859-10809483-images-thumbs&n=13" alt="Сравнение HDD и SSD">
+        <p>SSD компактнее, быстрее, надёжнее (ударов), но дороже за 1 ГБ.</p>
+      </div>
+      <div class="info-card">
+        <h3>📊 Основные функции</h3>
+        <ul>
+          <li><strong>Долговременное хранение данных</strong> — ОС, программы, документы, медиа</li>
+          <li><strong>Быстрый доступ</strong> — чтение и запись данных по запросу системы</li>
+          <li><strong>Загрузка ОС и ПО</strong> — от скорости накопителя зависит время запуска</li>
+          <li><strong>Резервное копирование</strong> — хранение бэкапов</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. КАК ИЗГОТАВЛИВАЮТ НАКОПИТЕЛИ ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как производят накопители?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о производстве</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>🔬 От кремния до накопителя</h3>
+    </div>
+  </div>
+
+  <!-- ========== 3. ПРОИЗВОДИТЕЛИ НАКОПИТЕЛЕЙ ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('samsung')">
+      <img src="https://m-cdn.phonearena.com/images/articles/383564-image/Samsung-Logo-1993-2005.webp" alt="Samsung">
+      <h3>Samsung</h3>
+      <p>Лидер в производстве SSD (и DRAM)</p>
+      <span class="badge">🇰🇷 Корея</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('wdc')">
+      <img src="https://g.foolcdn.com/editorial/images/477202/wdc-logo.png" alt="Western Digital">
+      <h3>Western Digital (WD)</h3>
+      <p>HDD + SSD (SanDisk)</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('seagate')">
+      <img src="https://nswits.com.au/wp-content/uploads/2024/10/Seagate_Technology-Logo.wine_.svg" alt="Seagate">
+      <h3>Seagate</h3>
+      <p>HDD + SSD, известны HDD</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('skhynix')">
+      <img src="https://lip.radiostuff.ru/wa-data/public/shop/brands/17699/17699.png" alt="SK Hynix">
+      <h3>SK Hynix</h3>
+      <p>Чипы памяти, бренд Solidigm</p>
+      <span class="badge">🇰🇷 Корея</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('kingston')">
+      <img src="https://i.pinimg.com/originals/9a/66/60/9a6660e2a1e6ac3660161a788b03471a.png" alt="Kingston">
+      <h3>Kingston</h3>
+      <p>Популярные SSD (A, KC, Fury)</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('corsair')">
+      <img src="https://aaelectronics.ru/upload/iblock/d50/icbpnyceafw61bmobthnje1eds7oxm0x.png" alt="Corsair">
+      <h3>Corsair</h3>
+      <p>Игровые SSD MP серии</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="samsungStorageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('samsungStorage')">&times;</span>
+      <h3>📘 Samsung</h3>
+      <ul><li>SSD: 990 PRO (PCIe 4.0), 990 EVO (PCIe 5.0 ready), 980, 870 EVO (SATA)</li><li>Память V-NAND, собственный контроллер</li><li>Лидер скорости и надёжности</li></ul>
+    </div>
+  </div>
+
+  <div id="wdcModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('wdc')">&times;</span>
+      <h3>📘 Western Digital</h3>
+      <ul><li>HDD: Blue, Black, Red, Purple, Gold</li><li>SSD под брендом WD и SanDisk</li><li>Популярные модели: WD Black SN850X (PCIe 4.0)</li></ul>
+    </div>
+  </div>
+
+  <div id="seagateModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('seagate')">&times;</span>
+      <h3>📘 Seagate</h3>
+      <ul><li>HDD: BarraCuda, IronWolf (NAS), SkyHawk (видеонаблюдение), Exos (enterprise)</li><li>SSD: FireCuda 530/540 (PCIe 4.0/5.0)</li></ul>
+    </div>
+  </div>
+
+  <div id="skhynixStorageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('skhynixStorage')">&times;</span>
+      <h3>📘 SK Hynix</h3>
+      <ul><li>Производитель чипов памяти, Solidigm (бывш. Intel SSD) бренд</li><li>SSD: Intel 670p (QLC), Solidigm P44 Pro</li></ul>
+    </div>
+  </div>
+
+  <div id="kingstonStorageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('kingstonStorage')">&times;</span>
+      <h3>📘 Kingston</h3>
+      <ul><li>KC3000 (PCIe 4.0 топ), Fury Renegade, NV2 (бюджетный NVMe), A400 (SATA)</li><li>Огромные продажи в сегменте OEM</li></ul>
+    </div>
+  </div>
+
+  <div id="corsairStorageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('corsairStorage')">&times;</span>
+      <h3>📘 Corsair</h3>
+      <ul><li>MP700 — PCIe 5.0</li><li>MP600 PRO/XT (PCIe 4.0)</li><li>Серии с радиаторами и RGB</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('read')">
+      <h3>📖 Скорость чтения</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('write')">
+      <h3>✍️ Скорость записи</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('iops')">
+      <h3>⚡ IOPS</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('endurance')">
+      <h3>🛡️ Ресурс (TBW)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('cache')">
+      <h3>💾 DRAM / SLC кэш</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('capacity')">
+      <h3>💽 Ёмкость (ГБ/ТБ)</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="readModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('read')">&times;</span>
+      <h3>📖 Скорость последовательного чтения</h3>
+      <p>Важна для загрузки ОС/игр. SATA SSD: 560 МБ/с, PCIe 3.0: 3500 МБ/с, PCIe 4.0: 5000-7400 МБ/с, PCIe 5.0: 10000-15000 МБ/с.</p>
+    </div>
+  </div>
+  <div id="writeModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('write')">&times;</span>
+      <h3>✍️ Скорость последовательной записи</h3>
+      <p>Важна при копировании больших файлов. Аналогичные чтению значения, но может быть ниже.</p>
+    </div>
+  </div>
+  <div id="iopsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('iops')">&times;</span>
+      <h3>⚡ IOPS</h3>
+      <p>Количество операций ввода-вывода в секунду (чтение/запись мелких блоков). Критично для серверной работы, БД, виртуализации. HDD ~ 100-200, SATA SSD ~ 100k, NVMe ~ 500k-1,5M+.</p>
+    </div>
+  </div>
+  <div id="enduranceModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('endurance')">&times;</span>
+      <h3>🛡️ Ресурс TBW (TeraBytes Written)</h3>
+      <p>Объём данных, который можно записать до выхода из строя. QLC: ~ 200-400 TBW, TLC: 600-1200 TBW, MLC (>2000 TBW).</p>
+    </div>
+  </div>
+  <div id="cacheModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('cache')">&times;</span>
+      <h3>💾 DRAM / SLC кэш</h3>
+      <p>DRAM-кэш ускоряет операции с таблицей флеш‑преобразований. SLC-кэш (pSLC) — быстрая область на диске для ускорения записи.</p>
+    </div>
+  </div>
+  <div id="capacityModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('capacity')">&times;</span>
+      <h3>💽 Ёмкость</h3>
+      <p>HDD: 1-22 ТБ. SSD: 120 ГБ — 8 ТБ (потребительские), 15-60 ТБ (серверные).</p>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureStorageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('manufactureStorage')">&times;</span>
+      <h3>🔬 Как производят накопители</h3>
+      <p><strong>HDD:</strong> создание магнитных пластин, головок, гермоблока, электроники.<br>
+      <strong>SSD:</strong> производство чипов NAND (слои 3D NAND), контроллера, монтаж на печатную плату.</p>
+    </div>
+  </div>
+
+  <!-- ========== 5. ТИПЫ НАКОПИТЕЛЕЙ ========== -->
+  <h2 id="types" class="section-title" data-aos="fade-up">🔢 Типы накопителей данных</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="types-grid" data-aos="fade-up">
+    <div class="type-card" onclick="showType('hdd')">
+      <h3>💿 HDD</h3>
+    </div>
+    <div class="type-card" onclick="showType('sata')">
+      <h3>💿 SATA SSD</h3>
+    </div>
+    <div class="type-card" onclick="showType('nvme')">
+      <h3>⚡ NVMe SSD</h3>
+    </div>
+    <div class="type-card" onclick="showType('sshd')">
+      <h3>💿 SSHD</h3>
+    </div>
+    <div class="type-card" onclick="showType('nand')">
+      <h3>🔧 3D NAND</h3>
+    </div>
+    <div class="type-card" onclick="showType('external')">
+      <h3>📀 Внешние (портативные)</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для типов -->
+  <div id="hddModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('hdd')">&times;</span>
+      <h3>💿 HDD (Hard Disk Drive)</h3>
+      <ul><li>Механический, накопитель на магнитных пластинах</li><li>+ дешёвый, большие объёмы (до 22+ ТБ)</li><li>- медленный (150-250 МБ/с), шумный, боится ударов</li><li>Для хранения больших данных, бэкапов, NAS</li></ul>
+    </div>
+  </div>
+  <div id="sataSsdModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('sata')">&times;</span>
+      <h3>💿 SATA SSD</h3>
+      <ul><li>2.5-дюймовый, интерфейс SATA 6 Гбит/с</li><li>+ 500-560 МБ/с, бесшумно, не боится ударов, недорого</li><li>- медленнее NVMe</li><li>Для апгрейда старых ПК, недорогие хранилища</li></ul>
+    </div>
+  </div>
+  <div id="nvmeModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('nvme')">&times;</span>
+      <h3>⚡ NVMe SSD</h3>
+      <ul><li>Форм-фактор M.2 (реже U.2, AIC). Интерфейс PCIe x2/x4</li><li>+ Скорость 3000-15000 МБ/с, низкая задержка, прямой доступ к CPU</li><li>- Дороже SATA, греется</li><li>Для игр, профессиональных задач, системы</li></ul>
+    </div>
+  </div>
+  <div id="sshdModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('sshd')">&times;</span>
+      <h3>💿 SSHD (Solid State Hybrid Drive)</h3>
+      <p>Гибрид HDD + маленький SSD смарт-кэш для ускорения частых данных. Компромисс, практически устарел.</p>
+    </div>
+  </div>
+  <div id="nandModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('nand')">&times;</span>
+      <h3>🔧 Технологии NAND памяти</h3>
+      <ul><li>SLC (1 бит/яч) — дорого, отказоустойчиво</li><li>MLC (2 бита) — дорого, высокий ресурс</li><li>TLC (3 бита) — современный стандарт</li><li>QLC (4 бита) — дёшево, ресурс ~200 TBW</li><li>3D NAND — вертикальные слои (64–300+) увеличивает плотность</li></ul>
+    </div>
+  </div>
+  <div id="externalModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('external')">&times;</span>
+      <h3>📀 Внешние накопители</h3>
+      <p>Портативные HDD (2.5") / SSD с интерфейсом USB 3.x / USB-C / Thunderbolt. Для резервного копирования, переноса данных между ПК.</p>
+    </div>
+  </div>
+
+  <!-- ========== 6. ИНТЕРФЕЙСЫ ========== -->
+  <h2 id="interfaces" class="section-title" data-aos="fade-up">🔌 Интерфейсы подключения</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="interfaces-grid" data-aos="fade-up">
+    <div class="interface-card" onclick="showInterface('sataInterface')">
+      <h3>🔌 SATA III</h3>
+    </div>
+    <div class="interface-card" onclick="showInterface('pcie')">
+      <h3>⚡ PCIe (M.2)</h3>
+    </div>
+    <div class="interface-card" onclick="showInterface('usb')">
+      <h3>📀 USB / Thunderbolt</h3>
+    </div>
+    <div class="interface-card" onclick="showInterface('sas')">
+      <h3>🔧 SAS (серверы)</h3>
+    </div>
+    <div class="interface-card" onclick="showInterface('u2')">
+      <h3>💡 U.2</h3>
+    </div>
+    <div class="interface-card" onclick="showInterface('m2')">
+      <h3>🔌 M.2 (Key M/B+M)</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для интерфейсов -->
+  <div id="sataInterfaceModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('sataInterface')">&times;</span>
+      <h3>🔌 SATA III (6 Гбит/с)</h3>
+      <p>Теоретическая скорость ~600 МБ/с. HDD и SATA SSD. Подключаются к разъёмам на плате (обычно 4-8 портов).</p>
+    </div>
+  </div>
+  <div id="pcieModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('pcie')">&times;</span>
+      <h3>⚡ PCIe (M.2 / AIC)</h3>
+      <p>M.2: PCIe x2/x4 (NVMe). PCIe 3.0 (3500 МБ/с), 4.0 (до 7500 МБ/с), PCIe 5.0 (до 15000 МБ/с).</p>
+    </div>
+  </div>
+  <div id="usbModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('usb')">&times;</span>
+      <h3>📀 USB / Thunderbolt</h3>
+      <p>USB 3.2 Gen 2 (10 Гбит/с), USB 3.2 Gen 2x2 (20 Гбит/с) и Thunderbolt 3/4 (40 Гбит/с) — для внешних накопителей.</p>
+    </div>
+  </div>
+  <div id="sasModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('sas')">&times;</span>
+      <h3>🔧 SAS (Serial Attached SCSI)</h3>
+      <p>Серверный интерфейс: скорость 12/24 Гбит/с, поддержка очередей команд, высокая надёжность (24/7).</p>
+    </div>
+  </div>
+  <div id="u2Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('u2')">&times;</span>
+      <h3>💡 U.2 (SFF‑8639)</h3>
+      <p>Форм-фактор для высокопроизводительных серверных SSD. Использует PCIe x4, горячая замена.</p>
+    </div>
+  </div>
+  <div id="m2Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('m2')">&times;</span>
+      <h3>🔌 M.2 Key M (NVMe) / Key B+M (SATA)</h3>
+      <p>Key M — только NVMe, Key B+M — SATA или NVMe. Длина: 2280 (стандарт).</p>
+    </div>
+  </div>
+
+  <!-- ========== 7. ОТЕЧЕСТВЕННЫЕ НАКОПИТЕЛИ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные производители</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 «Микрон» (Зеленоград)</h3>
+    <ul>
+      <li>Крупнейший производитель микроэлектроники, NAND-память (28 нм). Проекты по выпуску собственных SSD.</li>
+    </ul>
+    
+    <h3>🔶 МЦСТ (Эльбрус) + Байкал Электроникс</h3>
+    <ul>
+      <li>Интеграция собственных SSD-контроллеров (Elbrus SSD, Байкал SSD), ориентированных на госсектор.</li>
+    </ul>
+    
+    <h3>🔹 Российские бренды сборки</h3>
+    <ul>
+      <li>SSD под маркой «IRU», «GS Nanotech», Kraftway, Depo, «Аквариус». Используются на импортных компонентах с российской прошивкой и контролем.</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Развитие отечественных твердотельных накопителей — одно из приоритетных направлений импортозамещения.
+    </p>
+  </div>
+
+  <!-- ========== 8. КАК ВЫБРАТЬ НАКОПИТЕЛЬ ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать накопитель?</h2>
+  
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <ul>
+      <li><strong>Система + игры:</strong> NVMe SSD (PCIe 3.0 / 4.0) 500 ГБ — 2 ТБ</li>
+      <li><strong>Хранилище данных, бэкапы:</strong> HDD 2-8 ТБ (или более)</li>
+      <li><strong>Бюджетная сборка:</strong> SATA SSD 240-512 ГБ + HDD 1-2 ТБ</li>
+      <li><strong>Компактный ПК / ноутбук:</strong> NVMe SSD M.2 (единственный накопитель)</li>
+      <li><strong>Сервер / NAS:</strong> HDD (NAS/Enterprise) с большим объёмом, NVMe SSD (кэш)</li>
+    </ul>
+	<div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Для максимальной производительности:</strong> NVMe PCIe 4.0 / 5.0</li>
+      <li><strong>Оптимальный вариант для игр:</strong> NVMe PCIe 3.0 (3500 МБ/с)</li>
+      <li><strong>Апгрейд старого ПК:</strong> SATA SSD</li>
+      <li><strong>Для хранения фото/видео/бэкапов:</strong> HDD 4+ ТБ</li>
+      <li><strong>Для NAS/сервера:</strong> HDD WD Red / Seagate IronWolf</li>
+    </ul>
+  </div>
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Наличие DRAM-кэша ускоряет работу и увеличивает ресурс</li>
+      <li>TBW (ресурс записи) важен для активного использования</li>
+      <li>Не переплачивайте за PCIe 5.0 в играх (прирост минимальный)</li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- ========== 9. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение накопителей</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Модель</th><th>Тип / Интерфейс</th><th>Ёмкость</th><th>Чтение/Запись (МБ/с)</th><th>TBW</th><th>Цена</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Samsung 990 Pro</strong></td><td>NVMe PCIe 4.0</td><td>1 ТБ / 2 ТБ</td><td>7450 / 6900</td><td>600 / 1200</td><td>~$90 / $170</td></tr>
+        <tr><td><strong>WD Black SN850X</strong></td><td>NVMe PCIe 4.0</td><td>1 ТБ / 2 ТБ</td><td>7300 / 6600</td><td>600 / 1200</td><td>~$90 / $150</td></tr>
+        <tr><td><strong>Samsung 980</strong></td><td>NVMe PCIe 3.0</td><td>1 ТБ / 2 ТБ</td><td>3500 / 3000</td><td>300 / 600</td><td>~$70 / $110</td></tr>
+        <tr><td><strong>Kingston KC3000</strong></td><td>NVMe PCIe 4.0</td><td>1 ТБ / 2 ТБ</td><td>7000 / 6000</td><td>600 / 1200</td><td>~$80 / $150</td></tr>
+        <tr><td><strong>Crucial MX500</strong></td><td>SATA III</td><td>1 ТБ / 2 ТБ</td><td>560 / 510</td><td>360 / 700</td><td>~$65 / $115</td></tr>
+        <tr><td><strong>Seagate BarraCuda</strong> (HDD)</td><td>SATA III</td><td>2 ТБ / 4 ТБ</td><td>~210 / ~210</td><td>N/A</td><td>~$55 / $85</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 10. БУДУЩЕЕ ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее накопителей данных</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('pcie6')">
+      <h3>⚡ PCIe 6.0 / 7.0</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('cxl')">
+      <h3>🔌 CXL память</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('heatassist')">
+      <h3>🔥 HAMR / MAMR</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('energyefficiency')">
+      <h3>♻️ Энергоэффективность</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('sataobsolete')">
+      <h3>📀 Устаревание SATA</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('hybrid')">
+      <h3>💾 Гибридная память</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="pcie6StorageModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('pcie6Storage')">&times;</span>
+      <h3>⚡ PCIe 6.0 / 7.0</h3>
+      <p>PCIe 6.0: скорость до 256 ГБ/с, выход 2025-26. PCIe 7.0 ожидается 2028+. Рост производительности продвинутых SSD.</p>
+    </div>
+  </div>
+  <div id="cxlModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('cxl')">&times;</span>
+      <h3>🔌 CXL (Compute Express Link)</h3>
+      <p>Технология объединения памяти и устройств хранения, позволяет использовать SSD как расширение оперативной памяти.</p>
+    </div>
+  </div>
+  <div id="heatassistModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('heatassist')">&times;</span>
+      <h3>🔥 HAMR / MAMR (HDD)</h3>
+      <p>Технологии лазерного (HAMR) или микроволнового (MAMR) разогрева для увеличения плотности записи до 80 ТБ и выше.</p>
+    </div>
+  </div>
+  <div id="energyefficiencyModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('energyefficiency')">&times;</span>
+      <h3>♻️ Энергоэффективность</h3>
+      <p>SSD с низким энергопотреблением для ЦОД и ноутбуков.</p>
+    </div>
+  </div>
+  <div id="sataobsoleteModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('sataobsolete')">&times;</span>
+      <h3>📀 Устаревание SATA</h3>
+      <p>Бюджетные NVMe (DRAM-less) дешевеют и вытесняют SATA SSD в ноутбуках и настольных ПК.</p>
+    </div>
+  </div>
+  <div id="hybridModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('hybrid')">&times;</span>
+      <h3>💾 Гибридная память</h3>
+      <p>MRAM, ReRAM — быстрее NAND, не энергозависимы, потенциал замены DRAM в будущем.</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея накопителей</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="../PNG/ssd_sata.png" alt="SATA SSD">
+    <img src="../PNG/ssd_nvme.png" alt="NVMe SSD">
+    <img src="../PNG/external_usb.png" alt="Внешний накопитель USB">
+	<img src="../PNG/hdd_inside.png" alt="Внутренности HDD">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции для характеристик
+  function showFeature(feature) {
+    if (feature === 'manufacture') {
+      document.getElementById('manufactureStorageModal').style.display = 'block';
+    } else {
+      document.getElementById(feature + 'Modal').style.display = 'block';
+    }
+  }
+  
+  // Функции для типов
+  function showType(type) {
+    if (type === 'sata') {
+      document.getElementById('sataSsdModal').style.display = 'block';
+    } else {
+      document.getElementById(type + 'Modal').style.display = 'block';
+    }
+  }
+  
+  // Функции для интерфейсов
+  function showInterface(interfaceName) {
+    document.getElementById(interfaceName + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для будущего
+  function showFuture(future) {
+    if (future === 'pcie6') {
+      document.getElementById('pcie6StorageModal').style.display = 'block';
+    } else {
+      document.getElementById(future + 'Modal').style.display = 'block';
+    }
+  }
+  
+  // Функции для производителей
+  window.showSeries = function(manufacturer) {
+    const modalIds = {
+      'samsung': 'samsungStorageModal',
+      'wdc': 'wdcModal',
+      'seagate': 'seagateModal',
+      'skhynix': 'skhynixStorageModal',
+      'kingston': 'kingstonStorageModal',
+      'corsair': 'corsairStorageModal'
+    };
+    const modalId = modalIds[manufacturer];
+    if (modalId && document.getElementById(modalId)) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+  };
+  
+  window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId + 'Modal');
+    if (modal) modal.style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = [
+      'samsungStorageModal', 'wdcModal', 'seagateModal', 'skhynixStorageModal', 
+      'kingstonStorageModal', 'corsairStorageModal',
+      'readModal', 'writeModal', 'iopsModal', 'enduranceModal', 'cacheModal', 'capacityModal',
+      'manufactureStorageModal', 
+      'hddModal', 'sataSsdModal', 'nvmeModal', 'sshdModal', 'nandModal', 'externalModal',
+      'sataInterfaceModal', 'pcieModal', 'usbModal', 'sasModal', 'u2Modal', 'm2Modal',
+      'pcie6StorageModal', 'cxlModal', 'heatassistModal', 'energyefficiencyModal', 
+      'sataobsoleteModal', 'hybridModal'
+    ];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id);
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+  
+  // Функция для увеличения изображения при клике
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.info-card img, .image-gallery img').forEach(function(img) {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const modalDiv = document.createElement('div');
+        modalDiv.style.position = 'fixed';
+        modalDiv.style.top = '0';
+        modalDiv.style.left = '0';
+        modalDiv.style.width = '100%';
+        modalDiv.style.height = '100%';
+        modalDiv.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        modalDiv.style.zIndex = '10000';
+        modalDiv.style.display = 'flex';
+        modalDiv.style.alignItems = 'center';
+        modalDiv.style.justifyContent = 'center';
+        modalDiv.style.cursor = 'pointer';
+        
+        const fullImg = document.createElement('img');
+        fullImg.src = this.src;
+        fullImg.style.maxWidth = '90%';
+        fullImg.style.maxHeight = '90%';
+        fullImg.style.borderRadius = '8px';
+        fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+        
+        modalDiv.appendChild(fullImg);
+        document.body.appendChild(modalDiv);
+        
+        modalDiv.addEventListener('click', function() {
+          document.body.removeChild(modalDiv);
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

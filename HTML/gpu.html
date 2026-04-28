@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Видеокарты - GPU | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .types-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек характеристик, типов, будущего */
+    .feature-card, .type-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .type-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .type-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских производителей */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Центрирование для карточки производства */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .types-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .types-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Графические процессоры (GPU)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое GPU?</a>
+  <a href="#manufacture">Как производят?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#characteristics">Характеристики</a>
+  <a href="#types">Типы GPU</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ ВИДЕОКАРТА ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое видеокарта?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>🎨 "Художник" компьютера</h3>
+        <p>Видеокарта (GPU, Graphics Processing Unit) — это устройство, отвечающее за обработку графики и вывод изображения на монитор. Современные GPU также используются для параллельных вычислений (майнинг, AI, научные расчёты).</p>
+        <img src="../PNG/gpu.png" alt="Видеокарта">
+      </div>
+      <div class="info-card">
+        <h3>⚡ Как работает GPU?</h3>
+        <p>GPU имеет тысячи ядер, оптимизированных для параллельной обработки данных. В отличие от CPU (несколько мощных ядер), GPU использует множество простых ядер для одновременной обработки миллионов пикселей.</p>
+        <img src="https://ts1.mm.bing.net/th?id=OIP.UP8vxZFgi5iDBS8aiFJ6pgHaDp&pid=15.1" alt="Схема работы GPU">
+        <p>Сравнение архитектур CPU и GPU: CPU — несколько мощных ядер, GPU — тысячи простых ядер.</p>
+      </div>
+      <div class="info-card">
+        <h3>📊 Основные функции GPU</h3>
+        <ul>
+          <li><strong>Рендеринг 2D/3D графики</strong> — обработка игр, интерфейса, видео</li>
+          <li><strong>Видеокодирование/декодирование</strong> — NVENC, AMD VCE</li>
+          <li><strong>Параллельные вычисления</strong> — CUDA, OpenCL, машинное обучение</li>
+          <li><strong>Ускорение AI и нейросетей</strong> — Tensor ядра (NVIDIA), AI Accelerator (AMD)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. КАК ИЗГОТАВЛИВАЮТ GPU ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как производят видеокарты?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о производстве GPU</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>Производство🔬</h3>
+    </div>
+  </div>
+
+  <!-- ========== 3. ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители GPU</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('nvidia')">
+      <img src="../PNG/nvidia_logo.png" alt="NVIDIA">
+      <h3>NVIDIA</h3>
+      <p>Лидер рынка, технологии AI и Ray Tracing</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('amd')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/330px-AMD_Logo.svg.png" alt="AMD">
+      <h3>AMD Radeon</h3>
+      <p>Главный конкурент NVIDIA</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('intel')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/1920px-Intel_logo_2023.svg.png" alt="Intel">
+      <h3>Intel Arc</h3>
+      <p>Новый игрок на рынке дискретных GPU</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <h2 class="section-title" data-aos="fade-up">🏭 Партнёры (AIB-производители)</h2>
+  <p class="section-subtitle" data-aos="fade-up">Компании, выпускающие готовые видеокарты</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('asus')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ASUS_Logo.svg/1920px-ASUS_Logo.svg.png" alt="ASUS">
+      <h3>ASUS</h3>
+      <p>Серии ROG, TUF, Dual</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('msi')">
+      <img src="https://upload.wikimedia.org/wikipedia/ru/thumb/1/10/Логотип_MSI.png/960px-Логотип_MSI.png" alt="MSI">
+      <h3>MSI</h3>
+      <p>Серии Gaming, Suprim, Ventus</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('gigabyte')">
+      <img src="https://sankt-peterburg.kom-support.ru/src/img/brands/temp_dir/6364faa363b1c.png" alt="Gigabyte">
+      <h3>Gigabyte</h3>
+      <p>Серии Aorus, Gaming, Eagle</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="nvidiaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('nvidia')">&times;</span>
+      <h3>🎮 NVIDIA GeForce</h3>
+      <ul>
+        <li><strong>Архитектуры:</strong> Ampere, Ada Lovelace, Blackwell</li>
+        <li><strong>Технологии:</strong> DLSS, Ray Tracing, CUDA, NVENC</li>
+        <li><strong>Серии:</strong> RTX 40 (Ada), RTX 30 (Ampere), RTX 20 (Turing)</li>
+        <li>Лидер в AI и машинном обучении</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="amdModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('amd')">&times;</span>
+      <h3>🎮 AMD Radeon</h3>
+      <ul>
+        <li><strong>Архитектуры:</strong> RDNA 2, RDNA 3, RDNA 4</li>
+        <li><strong>Технологии:</strong> FSR, Ray Tracing, Smart Access Memory</li>
+        <li><strong>Серии:</strong> RX 7000 (RDNA 3), RX 6000 (RDNA 2)</li>
+        <li>Лучшее соотношение цена/производительность</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="intelModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('intel')">&times;</span>
+      <h3>🎮 Intel Arc</h3>
+      <ul>
+        <li><strong>Архитектура:</strong> Alchemist, Battlemage, Celestial</li>
+        <li><strong>Технологии:</strong> XeSS, AV1 кодирование</li>
+        <li><strong>Серии:</strong> A750, A770, Battlemage (2024+)</li>
+        <li>Активное развитие драйверов и поддержки</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="asusModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('asus')">&times;</span>
+      <h3>🟦 ASUS</h3>
+      <ul><li>ROG Strix — премиальная серия</li><li>TUF Gaming — надёжная</li><li>Dual / ProArt — доступная</li></ul>
+    </div>
+  </div>
+  <div id="msiModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('msi')">&times;</span>
+      <h3>🟥 MSI</h3>
+      <ul><li>Suprim / Suprim X — топовая</li><li>Gaming X Trio — игровая</li><li>Ventus / Mech — доступная</li></ul>
+    </div>
+  </div>
+  <div id="gigabyteModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('gigabyte')">&times;</span>
+      <h3>🟩 Gigabyte</h3>
+      <ul><li>Aorus — премиальная</li><li>Gaming OC — игровая</li><li>Eagle / Windforce — доступная</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('vram')">
+      <h3>💾 Объём VRAM</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('cores')">
+      <h3>🔢 Ядра CUDA/Compute</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('frequency')">
+      <h3>⚡ Частота GPU/памяти</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('memorybus')">
+      <h3>🔌 Шина памяти</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('tdp')">
+      <h3>🌡️ TDP / TGP</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('rtx')">
+      <h3>✨ RT / Tensor ядра</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="vramModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('vram')">&times;</span>
+      <h3>💾 Объём видеопамяти (VRAM)</h3>
+      <p>Хранит текстуры, кадры, буферы. Влияет на разрешение и качество текстур.</p>
+      <ul><li>4-6 ГБ — 1080p, старые игры</li><li>8-10 ГБ — 1080p-1440p, современные игры</li><li>12-16 ГБ — 1440p-4K, новые игры</li><li>20-24+ ГБ — 4K, профессиональные задачи</li></ul>
+    </div>
+  </div>
+  <div id="coresModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('cores')">&times;</span>
+      <h3>🔢 Ядра CUDA / Compute Units</h3>
+      <p>NVIDIA: CUDA ядра; AMD: Compute Units + Stream Processors.</p>
+      <ul><li>Чем больше ядер — тем выше производительность</li><li>RTX 4090: 16384 CUDA ядер</li><li>RX 7900 XTX: 6144 Stream процессоров</li></ul>
+    </div>
+  </div>
+  <div id="frequencyModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('frequency')">&times;</span>
+      <h3>⚡ Частота GPU и памяти</h3>
+      <p>Базовая и Boost частота ядра. Частота памяти в МГц.</p>
+      <ul><li>Boost: до 2.5-3.0 ГГц на современных GPU</li><li>GDDR6X: до 21 Гбит/с</li><li>Разгон (OC) увеличивает производительность</li></ul>
+    </div>
+  </div>
+  <div id="memorybusModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('memorybus')">&times;</span>
+      <h3>🔌 Шина памяти (бит)</h3>
+      <p>Пропускная способность между GPU и VRAM.</p>
+      <ul><li>128 бит — бюджетные карты</li><li>192-256 бит — средний сегмент</li><li>320-384 бит — топовые карты (RTX 4090 — 384 бит)</li></ul>
+    </div>
+  </div>
+  <div id="tdpModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('tdp')">&times;</span>
+      <h3>🌡️ TDP / TGP</h3>
+      <p>Энергопотребление и тепловыделение видеокарты.</p>
+      <ul><li>75 Вт — без доп. питания</li><li>150-250 Вт — средний сегмент (RTX 4070)</li><li>300-450+ Вт — топовые модели (RTX 4090)</li></ul>
+    </div>
+  </div>
+  <div id="rtxModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('rtx')">&times;</span>
+      <h3>✨ RT и Tensor ядра (NVIDIA)</h3>
+      <ul><li><strong>RT ядра</strong> — аппаратное ускорение трассировки лучей</li><li><strong>Tensor ядра</strong> — ускорение AI, DLSS</li><li><strong>AMD</strong> — аналоги: Ray Accelerators, AI Accelerators</li></ul>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('manufacture')">&times;</span>
+      <h3>🔬 Как создают видеокарты</h3>
+      <ol>
+        <li><strong>Разработка чипа</strong> — проектирование архитектуры GPU</li>
+        <li><strong>Производство чипа</strong> — TSMC, Samsung (5-4 нм техпроцесс)</li>
+        <li><strong>Монтаж на PCB</strong> — пайка чипа и компонентов</li>
+        <li><strong>Установка памяти</strong> — монтаж чипов GDDR6/GDDR6X</li>
+        <li><strong>Система охлаждения</strong> — радиаторы, теплотрубки, вентиляторы</li>
+        <li><strong>Тестирование</strong> — проверка стабильности, производительности</li>
+        <li><strong>Прошивка BIOS/UEFI</strong> — задание частот, лимитов</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ========== 5. ТИПЫ GPU ========== -->
+  <h2 id="types" class="section-title" data-aos="fade-up">🔢 Типы видеокарт</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="types-grid" data-aos="fade-up">
+    <div class="type-card" onclick="showType('integrated')">
+      <h3>📺 Встроенные (iGPU)</h3>
+    </div>
+    <div class="type-card" onclick="showType('discrete')">
+      <h3>🎮 Дискретные</h3>
+    </div>
+    <div class="type-card" onclick="showType('workstation')">
+      <h3>💼 Профессиональные</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для типов -->
+  <div id="integratedModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('integrated')">&times;</span>
+      <h3>📺 Встроенная графика (iGPU)</h3>
+      <ul><li>Интегрирована в процессор (Intel UHD, AMD Radeon Graphics)</li><li>Общая память с CPU (использует RAM)</li><li>Для офиса, видео, старых игр</li><li>Энергоэффективно</li></ul>
+    </div>
+  </div>
+  <div id="discreteModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('discrete')">&times;</span>
+      <h3>🎮 Дискретная видеокарта</h3>
+      <ul><li>Отдельный GPU с собственной VRAM</li><li>Высокая производительность для игр и профессиональных задач</li><li>Требует доп. питания и охлаждения</li><li>Примеры: RTX 4070, RX 7800 XT</li></ul>
+    </div>
+  </div>
+  <div id="workstationModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('workstation')">&times;</span>
+      <h3>💼 Профессиональные GPU</h3>
+      <ul><li>Сертифицированные драйверы для CAD/CAM/3D</li><li>NVIDIA Quadro / RTX A-Series / RTX Ada</li><li>AMD Radeon Pro / Instinct</li><li>Большой объём VRAM, ECC память</li><li>Для научных расчётов, AI, рендеринга</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 6. ОТЕЧЕСТВЕННЫЕ РАЗРАБОТКИ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные разработки GPU</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 Gravitator (GS Nanotech / МЦСТ)</h3>
+    <ul>
+      <li>Разработка отечественного графического процессора</li>
+      <li>Совместимость с API OpenGL, Vulkan</li>
+      <li>Ориентация на госсектор и импортозамещение</li>
+    </ul>
+    
+    <h3>🔶 Микрон (Зеленоград)</h3>
+    <ul>
+      <li>Разработка графических контроллеров для встраиваемых систем</li>
+      <li>Поддержка отечественных вычислительных систем</li>
+    </ul>
+    
+    <h3>🔹 Встроенная графика в Эльбрус и Байкал</h3>
+    <ul>
+      <li>Процессор Эльбрус-8СВ — встроенный графический контроллер</li>
+      <li>Собственный графический стек на Linux</li>
+      <li>Базовые возможности 2D/3D графики</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Собственные дискретные видеокарты в РФ находятся на ранней стадии разработки. Планируется выпуск GPU для госсектора в рамках программ импортозамещения.
+    </p>
+  </div>
+
+  <!-- ========== 7. КАК ВЫБРАТЬ ВИДЕОКАРТУ ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать видеокарту?</h2>
+  
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <ul>
+      <li><strong>Офис/интернет:</strong> Встроенная графика (iGPU)</li>
+      <li><strong>1080p Gaming:</strong> RTX 4060 / RX 7600</li>
+      <li><strong>1440p Gaming:</strong> RTX 4070 / RX 7700 XT / RX 7800 XT</li>
+      <li><strong>4K Gaming:</strong> RTX 4080 / RX 7900 XT / RTX 4090</li>
+      <li><strong>Профессиональные задачи (3D, AI):</strong> RTX 4090 / Quadro / Radeon Pro</li>
+    </ul>
+	<div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Бюджетный игровой ПК (1080p):</strong> RTX 4060 / RX 7600</li>
+      <li><strong>Средний игровой ПК (1440p):</strong> RTX 4070 Super / RX 7800 XT</li>
+      <li><strong>Топовый игровой ПК (4K):</strong> RTX 4080 Super / RX 7900 XTX</li>
+      <li><strong>Для майнинга:</strong> NVIDIA GP104 / AMD Navi — но сейчас не актуально</li>
+      <li><strong>Для AI/ML (бюджет):</strong> RTX 3060 12GB / RTX 4060 Ti 16GB</li>
+      <li><strong>Для AI/ML (профессионалам):</strong> RTX 4090 / A100 / H100</li>
+    </ul>
+  </div>
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Соотношение цена/производительность — сравнивайте в бенчмарках</li>
+      <li>Учитывайте блок питания (калькулятор мощности)</li>
+      <li>Проверяйте совместимость с корпусом (длина видеокарты)</li>
+      <li>Для RTX 40xx и RX 7xxx — поддержка PCIe 4.0/5.0 важна</li>
+      <li>Реальные бенчмарки важнее, чем объём VRAM и частоты</li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- ========== 8. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение современных видеокарт</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Модель</th><th>VRAM</th><th>Ядра CUDA</th><th>Частота Boost</th><th>TDP</th><th>Цена</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>RTX 4090</td><td>24 ГБ GDDR6X</td><td>16384</td><td>2.52 ГГц</td><td>450W</td><td>~$1600</td></tr>
+        <tr><td>RTX 4080 Super</td><td>16 ГБ GDDR6X</td><td>10240</td><td>2.55 ГГц</td><td>320W</td><td>~$1000</td></tr>
+        <tr><td>RTX 4070 Ti Super</td><td>16 ГБ GDDR6X</td><td>8448</td><td>2.62 ГГц</td><td>285W</td><td>~$800</td></tr>
+        <tr><td>RTX 4070 Super</td><td>12 ГБ GDDR6X</td><td>7168</td><td>2.48 ГГц</td><td>220W</td><td>~$600</td></tr>
+        <tr><td>RX 7900 XTX</td><td>24 ГБ GDDR6</td><td>6144 SP*</td><td>2.5 ГГц</td><td>355W</td><td>~$900</td></tr>
+        <tr><td>RX 7900 XT</td><td>20 ГБ GDDR6</td><td>5376 SP*</td><td>2.4 ГГц</td><td>300W</td><td>~$750</td></tr>
+        <tr><td>RX 7800 XT</td><td>16 ГБ GDDR6</td><td>3840 SP*</td><td>2.4 ГГц</td><td>263W</td><td>~$500</td></tr>
+        <tr><td>Intel Arc A770</td><td>16 ГБ GDDR6</td><td>4096</td><td>2.4 ГГц</td><td>225W</td><td>~$350</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; margin-top: 10px;">*SP — Stream Processors (AMD)</p>
+  </div>
+
+  <!-- ========== 9. БУДУЩЕЕ GPU ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее видеокарт</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('chiplets')">
+      <h3>🧩 Чиплетная архитектура</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('pcie5')">
+      <h3>⚡ PCIe 5.0 / 6.0</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('ai')">
+      <h3>🤖 Гиперреалистичный AI</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('nvidiar')">
+      <h3>💡 NVIDIA Blackwell / Rubin</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('amdnext')">
+      <h3>💡 AMD RDNA 4 / UDNA</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('intelnext')">
+      <h3>💡 Intel Battlemage / Celestial</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="chipletsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('chiplets')">&times;</span>
+      <h3>🧩 Чиплетная архитектура</h3>
+      <p>AMD уже использует чиплеты (RDNA 3), NVIDIA планирует переход в Blackwell. Это позволит снизить себестоимость и увеличить масштабируемость.</p>
+    </div>
+  </div>
+  <div id="pcie5Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('pcie5')">&times;</span>
+      <h3>⚡ PCIe 5.0 / 6.0</h3>
+      <p>PCIe 5.0 уже в RTX 40xx (частично), PCIe 6.0 в разработке. Увеличение пропускной способности в 4 раза по сравнению с PCIe 4.0.</p>
+    </div>
+  </div>
+  <div id="aiModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ai')">&times;</span>
+      <h3>🤖 Гиперреалистичный AI</h3>
+      <p>Поколение RTX 50xx получит улучшенные Tensor ядра для нейросетей, улучшение DLSS 4. AMD добавит FSR 4 на AI ускорителях.</p>
+    </div>
+  </div>
+  <div id="nvidiarModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('nvidiar')">&times;</span>
+      <h3>💡 NVIDIA Blackwell (2024-2025)</h3>
+      <p>Новая архитектура с техпроцессом 3 нм (TSMC), до 200 млрд транзисторов, чиплетный дизайн. Планируется выход RTX 5090 с 192-256 ядрами SM.</p>
+    </div>
+  </div>
+  <div id="amdnextModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('amdnext')">&times;</span>
+      <h3>💡 AMD RDNA 4 / UDNA</h3>
+      <p>RDNA 4 (2024-2025) — улучшенная производительность лучей, переход на UDNA — унификация геймерских и AI архитектур.</p>
+    </div>
+  </div>
+  <div id="intelnextModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('intelnext')">&times;</span>
+      <h3>💡 Intel Battlemage / Celestial</h3>
+      <p>Battlemage (2025) — улучшенная производительность, Celestial (2026) — флагманская серия. Планируется конкуренция с RTX 50xx.</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея видеокарт</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="../PNG/gpu_nvidia.png" alt="NVIDIA RTX 4090">
+    <img src="../PNG/gpu_amd.png" alt="AMD Radeon RX 7900 XTX">
+    <img src="../PNG/gpu_arc.png" alt="Intel Arc A770">
+    <img src="../PNG/gpu_inside.png" alt="PCB видеокарты">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции для характеристик
+  function showFeature(feature) {
+    document.getElementById(feature + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для типов
+  function showType(type) {
+    document.getElementById(type + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для будущего
+  function showFuture(future) {
+    document.getElementById(future + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для производителей
+  window.showSeries = function(manufacturer) {
+    document.getElementById(manufacturer + 'Modal').style.display = 'block';
+  };
+  
+  window.closeModal = function(modalId) {
+    document.getElementById(modalId + 'Modal').style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = ['nvidia', 'amd', 'intelGpu', 'asus', 'msi', 'gigabyte', 'vram', 'cores', 'frequency', 'memorybus', 'tdp', 'rtx', 'manufacture', 'integrated', 'discrete', 'workstation', 'chiplets', 'pcie5', 'ai', 'nvidiar', 'amdnext', 'intelnext'];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id + 'Modal');
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+  // Функция для увеличения изображения при клике
+  document.querySelectorAll('.info-card img, .image-gallery img').forEach(img => {
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100%';
+      modal.style.height = '100%';
+      modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+      modal.style.zIndex = '9999';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.cursor = 'pointer';
+      
+      const fullImg = document.createElement('img');
+      fullImg.src = this.src;
+      fullImg.style.maxWidth = '90%';
+      fullImg.style.maxHeight = '90%';
+      fullImg.style.borderRadius = '8px';
+      fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+      
+      modal.appendChild(fullImg);
+      document.body.appendChild(modal);
+      
+      modal.addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Системы охлаждения - Cooling | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .types-grid, .fans-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек */
+    .feature-card, .type-card, .fan-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .type-card:hover, .fan-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .type-card h3, .fan-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских производителей */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Центрирование */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .types-grid, .fans-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .types-grid, .fans-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Системы охлаждения (Cooling)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое охлаждение?</a>
+  <a href="#manufacture">Как производят?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#characteristics">Характеристики</a>
+  <a href="#types">Типы охлаждения</a>
+  <a href="#fans">Корпусные вентиляторы</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ ОХЛАЖДЕНИЕ ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое системы охлаждения?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>❄️ "Терморегуляция" ПК</h3>
+        <p>Система охлаждения (Cooling) — это комплекс устройств для отвода тепла от нагревающихся компонентов компьютера: процессора, видеокарты, чипсета, памяти, накопителей.</p>
+        <img src="../PNG/case.png" alt="Кулер">
+      </div>
+      <div class="info-card">
+        <h3>🌡️ Почему нужно охлаждение?</h3>
+        <p>При перегреве:</p>
+        <ul>
+          <li><strong>Троттлинг</strong> — принудительное снижение частоты</li>
+          <li><strong>Нестабильность</strong> — вылеты программ, BSOD</li>
+          <li><strong>Снижение ресурса</strong> — деградация чипов</li>
+          <li><strong>Выход из строя</strong> — критический перегрев</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📊 Основные задачи</h3>
+        <ul>
+          <li><strong>Отвод тепла</strong> — от CPU, GPU, VRM, чипсета, RAM</li>
+          <li><strong>Отвод горячего воздуха</strong> — из корпуса наружу</li>
+          <li><strong>Шумопонижение</strong> — эффективное охлаждение на низких оборотах</li>
+          <li><strong>Стабильность</strong> — обеспечение работы ПК под нагрузкой</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. КАК ИЗГОТАВЛИВАЮТ КУЛЕРЫ ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как производят системы охлаждения?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о производстве</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>Производство🔬</h3>
+    </div>
+  </div>
+
+  <!-- ========== 3. ПРОИЗВОДИТЕЛИ СО ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители СО</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('noctua')">
+      <img src="../PNG/noctua-logo.png" alt="Noctua">
+      <h3>Noctua</h3>
+      <p>Австрийское качество, тишина</p>
+      <span class="badge">🇦🇹 Австрия</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('bequiet')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Be-quiet%21_Logo.svg/1280px-Be-quiet%21_Logo.svg.png" alt="be quiet!">
+      <h3>be quiet!</h3>
+      <p>Немецкая тишина</p>
+      <span class="badge">🇩🇪 Германия</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('corsair')">
+      <img src="https://aaelectronics.ru/upload/iblock/d50/icbpnyceafw61bmobthnje1eds7oxm0x.png" alt="Corsair">
+      <h3>Corsair</h3>
+      <p>Жидкостное охлаждение RGB</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('coolermaster')">
+      <img src="https://lip.radiostuff.ru/wa-data/public/shop/brands/21546/21546.png" alt="Cooler Master">
+      <h3>Cooler Master</h3>
+      <p>Доступные решения</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('arctic')">
+      <img src="../PNG/arctic-logo.png" alt="Arctic">
+      <h3>Arctic</h3>
+      <p>Лучшее соотношение цена/качество</p>
+      <span class="badge">🇨🇭 Швейцария</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('deepcool')">
+      <img src="../PNG/deepcool-logo.png" alt="Deepcool">
+      <h3>Deepcool</h3>
+      <p>Бюджетные и средние решения</p>
+      <span class="badge">🇨🇳 Китай</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="noctuaModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('noctua')">&times;</span>
+      <h3>🟤 Noctua</h3>
+      <ul><li>Лидер по воздушному охлаждению</li><li>Вентиляторы NF-A12x25, NF-F12</li><li>Кулеры: NH-D15, NH-U12A, NH-L9</li><li>Коричневая цветовая гамма + chromax.black</li><li>6 лет гарантии</li></ul>
+    </div>
+  </div>
+  <div id="bequietModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('bequiet')">&times;</span>
+      <h3>⚫ be quiet!</h3>
+      <ul><li>Известны тишиной</li><li>Кулеры: Dark Rock Pro 5, Dark Rock Elite</li><li>Вентиляторы Silent Wings 4</li><li>Надёжная немецкая сборка</li></ul>
+    </div>
+  </div>
+  <div id="corsairModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('corsair')">&times;</span>
+      <h3>🔴 Corsair</h3>
+      <ul><li>Лидер в жидкостном охлаждении</li><li>Серии: iCUE H150i, H100x</li><li>Вентиляторы: ML, LL, SP, AF серии, RGB</li><li>Собственная экосистема iCUE</li></ul>
+    </div>
+  </div>
+  <div id="coolermasterModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('coolermaster')">&times;</span>
+      <h3>🟣 Cooler Master</h3>
+      <ul><li>Кулеры: Hyper 212 (легендарный), MasterAir, MasterLiquid CLC</li><li>Вентиляторы: SickleFlow, Mobius</li><li>Доступные решения</li></ul>
+    </div>
+  </div>
+  <div id="arcticModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('arctic')">&times;</span>
+      <h3>🔵 Arctic</h3>
+      <ul><li>Лучшее соотношение цена/качество</li><li>Кулеры: Freezer 34 eSports DUO, Freezer A35</li><li>Вентиляторы P12/P14 PWM PST (Best Buy)</li><li>Жидкостные: Liquid Freezer III</li></ul>
+    </div>
+  </div>
+  <div id="deepcoolModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('deepcool')">&times;</span>
+      <h3>🟢 Deepcool</h3>
+      <ul><li>Кулеры: AK620 (конкурент NH-D15), AG, Gammaxx</li><li>Жидкостные: Castle, LE, LS, Mystique, LT</li><li>Вентиляторы: FC120, MF120 GT</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ СО ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('tdp')">
+      <h3>🌡️ TDP (рассеиваемая мощность)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('noise')">
+      <h3>🔇 Уровень шума (дБА)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('rpm')">
+      <h3>🌀 Скорость вращения (RPM)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('airflow')">
+      <h3>💨 Воздушный поток (CFM)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('static')">
+      <h3>⛲ Статическое давление</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('size')">
+      <h3>📏 Габариты и совместимость</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="tdpModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('tdp')">&times;</span>
+      <h3>🌡️ TDP рассеиваемая мощность (Вт)</h3>
+      <p>Сколько тепла может отвести система охлаждения. Кулер должен иметь TDP ≥ TDP процессора.</p>
+    </div>
+  </div>
+  <div id="noiseModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('noise')">&times;</span>
+      <h3>🔇 Уровень шума (дБА)</h3>
+      <p>Измеряется на определённых оборотах. 25-30 дБА — фоновый шум, 40+ дБА — слышно.</p>
+    </div>
+  </div>
+  <div id="rpmModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('rpm')">&times;</span>
+      <h3>🌀 Скорость вращения (RPM)</h3>
+      <p>Обороты вентилятора. Влияет на воздушный поток и шум. Регулировка PWM (4-pin) лучше DC (3-pin).</p>
+    </div>
+  </div>
+  <div id="airflowModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('airflow')">&times;</span>
+      <h3>💨 Воздушный поток (CFM)</h3>
+      <p>Куб. футов в минуту (метры куб./ч). Для корпусных вентиляторов важнее airflow.</p>
+    </div>
+  </div>
+  <div id="staticModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('static')">&times;</span>
+      <h3>⛲ Статическое давление</h3>
+      <p>Способность «продавливать» воздух через препятствия (радиаторы, фильтры). Для кулеров/радиаторов важнее статическое давление.</p>
+    </div>
+  </div>
+  <div id="sizeModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('size')">&times;</span>
+      <h3>📏 Габариты и совместимость</h3>
+      <p>Высота кулера должна влезать в корпус (160+ мм для ATX). Система Ж/О: размер радиатора (120/240/360/420 мм) и совместимость с корпусом.</p>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('manufacture')">&times;</span>
+      <h3>🔬 Как производят</h3>
+      <ol>
+        <li>Литьё основания радиатора, тепловых трубок</li>
+        <li>Пайка трубок к основанию</li>
+        <li>Изготовление вентилятора (крыльчатка, мотор, подшипник)</li>
+        <li>Сборка СЖО (герметизация, заправка жидкостью)</li>
+        <li>Контроль качества, тесты на утечку</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ========== 5. ТИПЫ ОХЛАЖДЕНИЯ ========== -->
+  <h2 id="types" class="section-title" data-aos="fade-up">🔄 Типы систем охлаждения</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="types-grid" data-aos="fade-up">
+    <div class="type-card" onclick="showType('air')">
+      <h3>💨 Воздушное</h3>
+    </div>
+    <div class="type-card" onclick="showType('aio')">
+      <h3>💧 СЖО (AIO)</h3>
+    </div>
+    <div class="type-card" onclick="showType('custom')">
+      <h3>🔧 Кастомная вода</h3>
+    </div>
+    <div class="type-card" onclick="showType('passive')">
+      <h3>🔇 Пассивное</h3>
+    </div>
+    <div class="type-card" onclick="showType('phase')">
+      <h3>🧊 Фазовый переход</h3>
+    </div>
+    <div class="type-card" onclick="showType('ln2')">
+      <h3>💨 Жидкий азот</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для типов -->
+  <div id="airModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('air')">&times;</span>
+      <h3>💨 Воздушное охлаждение</h3>
+      <p>Радиатор + тепловые трубки + вентиляторы. Самый распространённый тип. Надёжный, безопасный, хорошее соотношение цена/шум/производительность.</p>
+    </div>
+  </div>
+  <div id="aioModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('aio')">&times;</span>
+      <h3>💧 СЖО (All-in-One)</h3>
+      <p>Готовая система: водоблок, помпа, трубки, радиатор. Производительнее воздуха, компактнее кастомной воды. Риск протечки мал, но есть.</p>
+    </div>
+  </div>
+  <div id="customModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('custom')">&times;</span>
+      <h3>🔧 Кастомная вода</h3>
+      <p>Сборная система для энтузиастов. Максимальная производительность и внешний вид. Дорого, сложно в сборке и обслуживании.</p>
+    </div>
+  </div>
+  <div id="passiveModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('passive')">&times;</span>
+      <h3>🔇 Пассивное охлаждение</h3>
+      <p>Без вентиляторов (только радиатор). Тишина, но ограниченная производительность. HTPC, низкопрофильные системы, промышленность.</p>
+    </div>
+  </div>
+  <div id="phaseModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('phase')">&times;</span>
+      <h3>🧊 Фазовый переход (Peltier)</h3>
+      <p>Может работать ниже комнатной температуры, дорого, высокое энергопотребление, риск конденсата. Редко встречается.</p>
+    </div>
+  </div>
+  <div id="ln2Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ln2')">&times;</span>
+      <h3>💨 Жидкий азот (LN2)</h3>
+      <p>Экстремальный разгон (-196°C), нужна специальная посуда (пот). Только для бенчмарков и рекордов.</p>
+    </div>
+  </div>
+
+  <!-- ========== 6. КОРПУСНЫЕ ВЕНТИЛЯТОРЫ ========== -->
+  <h2 id="fans" class="section-title" data-aos="fade-up">🌀 Корпусные вентиляторы</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="fans-grid" data-aos="fade-up">
+    <div class="fan-card" onclick="showFan('size120')">
+      <h3>📏 120 мм</h3>
+    </div>
+    <div class="fan-card" onclick="showFan('size140')">
+      <h3>📏 140 мм</h3>
+    </div>
+    <div class="fan-card" onclick="showFan('bearing')">
+      <h3>🛢️ Подшипники</h3>
+    </div>
+    <div class="fan-card" onclick="showFan('rgb')">
+      <h3>🌈 RGB / ARGB</h3>
+    </div>
+    <div class="fan-card" onclick="showFan('pwm')">
+      <h3>🎛️ PWM регулировка</h3>
+    </div>
+    <div class="fan-card" onclick="showFan('optimization')">
+      <h3>📊 Airflow vs Static Pressure</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для вентиляторов -->
+  <div id="size120Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('size120')">&times;</span>
+      <h3>📏 120 мм стандарт</h3>
+      <p>Самый распространённый размер. Хороший баланс производительности и шума. Радиаторы 240/360 мм используют 120 мм.</p>
+    </div>
+  </div>
+  <div id="size140Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('size140')">&times;</span>
+      <h3>📏 140 мм</h3>
+      <p>Тише, чем 120 мм при том же воздушном потоке. Меньше выбор, дороже. Корпуса с поддержкой 140 мм и радиаторы под 280/420 мм.</p>
+    </div>
+  </div>
+  <div id="bearingModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('bearing')">&times;</span>
+      <h3>🛢️ Подшипники</h3>
+      <ul><li>Втулка (Sleeve) — дешёвые, малый ресурс</li><li>Гидродинамический (FDB) — тихие, долгие</li><li>Шариковый (Ball) — шумные, вечные</li></ul>
+    </div>
+  </div>
+  <div id="rgbModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('rgb')">&times;</span>
+      <h3>🌈 RGB (12V) vs ARGB (5V)</h3>
+      <p>RGB — 1 цвет на все светодиоды. ARGB (Addressable) — индивидуальная подсветка каждого светодиода сложными эффектами.</p>
+    </div>
+  </div>
+  <div id="pwmModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('pwm')">&times;</span>
+      <h3>🎛️ PWM (4-pin)</h3>
+      <p>Плавное регулирование в широком диапазоне через ШИМ-сигнал. Лучше DC (3-pin) для регулировки.</p>
+    </div>
+  </div>
+  <div id="optimizationModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('optimization')">&times;</span>
+      <h3>📊 Airflow vs Static Pressure</h3>
+      <p>Airflow (CFM) — важнее для продува корпуса. Static Pressure (mmH₂O) — для радиаторов, плотных фильтров.</p>
+    </div>
+  </div>
+
+  <!-- ========== 7. ОТЕЧЕСТВЕННЫЕ ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные производители охлаждения</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 Системы охлаждения под брендами российских сборщиков</h3>
+    <ul>
+      <li>Сборка ПК под госзаказ с кулерами от Cooler Master / ID-Cooling / Deepcool с нанесением логотипа российских интеграторов</li>
+      <li>Отечественные вентиляторы для промышленных, защищённых систем</li>
+    </ul>
+    
+    <h3>🔶 Проект «Байкал» (системы охлаждения для вычислительной техники)</h3>
+    <ul>
+      <li>Разработка систем отвода тепла для отечественных процессоров Эльбрус/Байкал</li>
+      <li>Пассивные и активные решения для промышленных, серверных, высоконадёжных систем</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Своих массовых брендов вентиляторов/кулеров в РФ пока нет, однако активно ведутся разработки для промышленного сектора и импортозамещения.
+    </p>
+  </div>
+
+  <!-- ========== 8. КАК ВЫБРАТЬ ОХЛАЖДЕНИЕ ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать систему охлаждения?</h2>
+  
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <ul>
+      <li><strong>Офисный ПК:</strong> Боксовый кулер (в комплекте), Arctic Alpine, Deepcool GammaXX</li>
+      <li><strong>Игровой ПК (бюджет):</strong> Башенный кулер 120 мм (Cooler Master Hyper 212, Deepcool AG400)</li>
+      <li><strong>Игровой ПК (премиум):</strong> Башня 120-140 мм / AIO 240-360 мм</li>
+      <li><strong>Компактный/малошумный HTPC:</strong> Пассивное / Noctua NH-L9 / be quiet! Pure Rock LP</li>
+      <li><strong>Экстремальный разгон:</strong> Noctua NH-D15 / Deepcool AK620 / AIO 360+ / Кастомная вода / LN2</li>
+    </ul>
+	<div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Для слабых CPU:</strong> боксовый кулер (TDP 65 Вт)</li>
+      <li><strong>Для i5 / Ryzen 5:</strong> башня 120 мм</li>
+      <li><strong>Для i7 / Ryzen 7:</strong> башня 140 мм / AIO 240-280 мм</li>
+      <li><strong>Для i9 / Ryzen 9:</strong> топовая башня / AIO 360 мм / кастомная вода</li>
+    </ul>
+  </div>
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Габариты: высота кулера (замерьте корпус)</li>
+      <li>Совместимость с оперативной памятью (высокие радиаторы RAM могут мешать башне)</li>
+      <li>TDP кулера должен быть заявлен на тепловыделение процессора</li>
+      <li>Крепления для сокетов Intel/AMD (особенно для новых сокетов LGA1851, AM5)</li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- ========== 9. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение популярных кулеров</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Модель</th><th>Тип</th><th>TDP (Вт)</th><th>Вентиляторы</th><th>Сокеты</th><th>Цена</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Noctua NH-D15 G2</strong></td><td>Башня 140 мм (2 секции)</td><td>~250+</td><td>2x NF-A14x25</td><td>Intel LGA1851,1700; AMD AM5,AM4</td><td>~$150</td></tr>
+        <tr><td><strong>Deepcool AK620</strong></td><td>Башня 120 мм (2 секции)</td><td>260</td><td>2x FK120</td><td>Intel 1700,115x; AMD AM5,AM4</td><td>~$70</td></tr>
+        <tr><td><strong>Cooler Master Hyper 212 (Black)</strong></td><td>Башня 120 мм</td><td>150</td><td>1x Silencio FP120</td><td>Intel 1700,115x; AMD AM5,AM4</td><td>~$45</td></tr>
+        <tr><td><strong>Arctic Freezer 34 eSports DUO</strong></td><td>Башня 120 мм</td><td>210</td><td>2x P12 PWM PST</td><td>Intel 1700,115x; AMD AM5,AM4</td><td>~$45</td></tr>
+        <tr><td><strong>be quiet! Dark Rock Pro 5</strong></td><td>Башня 135/120 мм (2 секции)</td><td>270</td><td>2x Silent Wings 4</td><td>Intel 1700/1851; AMD AM5/AM4</td><td>~$100</td></tr>
+        <tr><td><strong>Corsair iCUE H150i Elite</strong></td><td>AIO 360 мм</td><td>250+</td><td>3x ML120 RGB</td><td>Intel 1700/115x; AMD AM5/AM4</td><td>~$250</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 10. БУДУЩЕЕ ОХЛАЖДЕНИЯ ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее охлаждения ПК</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('dualchambers')">
+      <h3>🔄 Двухкамерные корпуса</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('phasechange')">
+      <h3>🧊 Термоэлектрические элементы</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('ecofans')">
+      <h3>♻️ Эко-вентиляторы</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('percomponent')">
+      <h3>🔒 Персональное водяное охлаждение</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('living')">
+      <h3>📦 Интеграция в мебель</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="dualchambersModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('dualchambers')">&times;</span>
+      <h3>🔄 Двухкамерные корпуса</h3>
+      <p>Разделение воздушных потоков для процессора и видеокарты, свои зоны охлаждения, снижение турбулентности.</p>
+    </div>
+  </div>
+  <div id="phasechangeModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('phasechange')">&times;</span>
+      <h3>🧊 Термоэлектрические элементы (TEC/Peltier)</h3>
+      <p>Активное охлаждение памяти, твердотельных накопителей, возможно чипсета. Повышение эффективности обычных радиаторов.</p>
+    </div>
+  </div>
+  <div id="ecofansModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ecofans')">&times;</span>
+      <h3>♻️ Эко-вентиляторы из переработанных материалов</h3>
+      <p>Noctua (проект) — снижение экологической нагрузки, сохраняя производительность.</p>
+    </div>
+  </div>
+  <div id="percomponentModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('percomponent')">&times;</span>
+      <h3>🔒 Персональное водяное охлаждение отдельных компонентов</h3>
+      <p>Модульное жидкостное охлаждение набора компонентов без жёсткой привязки к конкретной плате.</p>
+    </div>
+  </div>
+  <div id="livingModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('living')">&times;</span>
+      <h3>📦 Интеграция ПК в мебель со скрытой системой охлаждения</h3>
+      <p>Тенденция к удалённым радиаторам и бесшумным решениям для гостиных.</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея систем охлаждения</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="../PNG/cooler_tower.png" alt="Башенный кулер">
+    <img src="../PNG/cooler_aio.png" alt="СЖО AIO">
+    <img src="../PNG/cooler_fan.png" alt="Вентилятор 120 мм">
+    <img src="../PNG/cooler_waterblock.png" alt="Водоблок">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции
+  function showFeature(feature) {
+    document.getElementById(feature + 'Modal').style.display = 'block';
+  }
+  
+  function showType(type) {
+    document.getElementById(type + 'Modal').style.display = 'block';
+  }
+  
+  function showFan(fan) {
+    document.getElementById(fan + 'Modal').style.display = 'block';
+  }
+  
+  function showFuture(future) {
+    document.getElementById(future + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для производителей с правильными ID
+  window.showSeries = function(manufacturer) {
+    const modalIds = {
+      'noctua': 'noctuaModal',
+      'bequiet': 'bequietModal',
+      'corsair': 'corsairModal',
+      'coolermaster': 'coolermasterModal',
+      'arctic': 'arcticModal',
+      'deepcool': 'deepcoolModal'
+    };
+    const modalId = modalIds[manufacturer];
+    if (modalId && document.getElementById(modalId)) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+  };
+  
+  window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId + 'Modal');
+    if (modal) modal.style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = [
+      'noctuaModal', 'bequietModal', 'corsairModal', 'coolermasterModal', 
+      'arcticModal', 'deepcoolModal',
+      'tdpModal', 'noiseModal', 'rpmModal', 'airflowModal', 'staticModal', 'sizeModal',
+      'manufactureModal', 
+      'airModal', 'aioModal', 'customModal', 'passiveModal', 'phaseModal', 'ln2Modal',
+      'size120Modal', 'size140Modal', 'bearingModal', 'rgbModal', 'pwmModal', 'optimizationModal',
+      'dualchambersModal', 'phasechangeModal', 'ecofansModal', 'percomponentModal', 'livingModal'
+    ];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id);
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+  
+  // Функция для увеличения изображения при клике
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.info-card img, .image-gallery img').forEach(function(img) {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const modalDiv = document.createElement('div');
+        modalDiv.style.position = 'fixed';
+        modalDiv.style.top = '0';
+        modalDiv.style.left = '0';
+        modalDiv.style.width = '100%';
+        modalDiv.style.height = '100%';
+        modalDiv.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        modalDiv.style.zIndex = '10000';
+        modalDiv.style.display = 'flex';
+        modalDiv.style.alignItems = 'center';
+        modalDiv.style.justifyContent = 'center';
+        modalDiv.style.cursor = 'pointer';
+        
+        const fullImg = document.createElement('img');
+        fullImg.src = this.src;
+        fullImg.style.maxWidth = '90%';
+        fullImg.style.maxHeight = '90%';
+        fullImg.style.borderRadius = '8px';
+        fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+        
+        modalDiv.appendChild(fullImg);
+        document.body.appendChild(modalDiv);
+        
+        modalDiv.addEventListener('click', function() {
+          document.body.removeChild(modalDiv);
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

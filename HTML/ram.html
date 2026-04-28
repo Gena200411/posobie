@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оперативная память - RAM | Информационно-справочное пособие</title>
+
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Сетки для карточек - по 3 в ряд */
+    .manufacturers-grid, .features-grid, .types-grid, .future-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    /* Стили карточек производителей */
+    .manufacturer-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .manufacturer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .manufacturer-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    
+    .manufacturer-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+      color: var(--text-color);
+    }
+    
+    .manufacturer-card p {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 5px 0;
+    }
+    
+    /* Стили карточек характеристик, типов, будущего */
+    .feature-card, .type-card, .future-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card:hover, .type-card:hover, .future-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+    }
+    
+    .feature-card h3, .type-card h3, .future-card h3 {
+      font-size: 16px;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    /* Бейджики */
+    .badge {
+      display: inline-block;
+      background: var(--highlight-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+    
+    .russian-badge {
+      background: #e74c3c;
+    }
+    
+    /* Контейнер для российских производителей */
+    .russian-container {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .russian-container h3 {
+      color: var(--highlight-color);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .russian-container h3:first-of-type {
+      margin-top: 0;
+    }
+    
+    .russian-container ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .russian-container li {
+      margin: 8px 0;
+    }
+    
+    /* Таблица сравнения */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background: var(--highlight-color);
+      color: white;
+    }
+    
+    /* Списки */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:before {
+      content: "⚡";
+    }
+    
+    /* Информационные сетки */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-card h3 {
+      color: var(--highlight-color);
+      margin-top: 0;
+    }
+    
+    .info-card img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+    
+    /* Фотогалерея */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .image-gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+    
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Заголовки */
+    .section-title {
+      font-size: 28px;
+      margin: 50px 0 20px 0;
+      text-align: center;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    /* Центрирование для карточки производства */
+    .manufacture-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .manufacturers-grid, .features-grid, .types-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .manufacturers-grid, .features-grid, .types-grid, .future-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="loader"></div>
+  <h2>Загрузка справочного пособия...</h2>
+</div>
+
+<header>
+  <img src="../PNG/logo_agz.png" alt="Логотип Академии" class="logo">
+  <div class="header-title">
+    <h1>Оперативная память (RAM)</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+</header>
+
+<nav id="navbar">
+  <a href="../index.html">← На главную</a>
+  <a href="#intro">Что такое RAM?</a>
+  <a href="#manufacture">Как производят?</a>
+  <a href="#manufacturers">Производители</a>
+  <a href="#characteristics">Характеристики</a>
+  <a href="#types">Типы памяти</a>
+  <a href="#russian">Отечественные</a>
+  <a href="#howtochoose">Как выбрать?</a>
+  <a href="#comparison">Сравнение</a>
+  <a href="#future">Будущее</a>
+</nav>
+
+<main>
+  <!-- ========== 1. ЧТО ТАКОЕ ОПЕРАТИВНАЯ ПАМЯТЬ ========== -->
+  <section id="intro" data-aos="fade-up">
+    <h1>Что такое оперативная память?</h1>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>💾 "Рабочий стол" компьютера</h3>
+        <p>Оперативная память (RAM, Random Access Memory) — это энергозависимая память, в которой временно хранятся данные и команды, необходимые процессору для выполнения операций. При выключении питания все данные из RAM удаляются.</p>
+        <img src="../PNG/ram.png" alt="Оперативная память">
+      </div>
+      <div class="info-card">
+        <h3>⚡ Как работает RAM?</h3>
+        <p>Процессор обращается к RAM для чтения и записи данных. Скорость работы RAM напрямую влияет на производительность системы: чем быстрее память, тем быстрее процессор получает данные.</p>
+        <img src="../PNG/ram_diagram.png" alt="Схема работы RAM">
+        <p>RAM состоит из ячеек памяти, каждая из которых имеет свой адрес. Данные могут быть прочитаны или записаны в любую ячейку независимо от других.</p>
+      </div>
+      <div class="info-card">
+        <h3>📊 Основные функции RAM</h3>
+        <ul>
+          <li><strong>Хранение выполняемых программ</strong> — код запущенных приложений</li>
+          <li><strong>Хранение обрабатываемых данных</strong> — временные данные программ</li>
+          <li><strong>Кэширование данных</strong> — буфер между накопителем и процессором</li>
+          <li><strong>Поддержка многозадачности</strong> — одновременная работа нескольких программ</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. КАК ИЗГОТАВЛИВАЮТ RAM ========== -->
+  <h2 id="manufacture" class="section-title" data-aos="fade-up">🏭 Как изготавливают оперативную память?</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать о производстве чипов памяти</p>
+  
+  <div class="manufacture-wrapper" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('manufacture')" style="min-width: 280px;">
+      <h3>Производство🔬</h3>
+    </div>
+  </div>
+
+  <!-- ========== 3. ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="manufacturers" class="section-title" data-aos="fade-up">🏭 Основные производители</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('samsung')">
+      <img src="https://m-cdn.phonearena.com/images/articles/383564-image/Samsung-Logo-1993-2005.webp" alt="Samsung">
+      <h3>Samsung</h3>
+      <p>Крупнейший производитель чипов памяти</p>
+      <span class="badge">🇰🇷 Корея</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('skhynix')">
+      <img src="https://lip.radiostuff.ru/wa-data/public/shop/brands/17699/17699.png" alt="SK Hynix">
+      <h3>SK Hynix</h3>
+      <p>Второй по величине производитель</p>
+      <span class="badge">🇰🇷 Корея</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('micron')">
+      <img src="https://i.pinimg.com/originals/c5/06/16/c50616fc18086db4dee197acbce77905.png" alt="Micron">
+      <h3>Micron / Crucial</h3>
+      <p>Американский производитель</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+  </div>
+
+  <div class="manufacturers-grid" data-aos="fade-up">
+    <div class="manufacturer-card" onclick="showSeries('kingston')">
+      <img src="https://i.pinimg.com/originals/9a/66/60/9a6660e2a1e6ac3660161a788b03471a.png" alt="Kingston">
+      <h3>Kingston</h3>
+      <p>Крупнейший сборщик модулей</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('corsair')">
+      <img src="https://aaelectronics.ru/upload/iblock/d50/icbpnyceafw61bmobthnje1eds7oxm0x.png" alt="Corsair">
+      <h3>Corsair</h3>
+      <p>Премиальные модули для энтузиастов</p>
+      <span class="badge">🇺🇸 США</span>
+    </div>
+
+    <div class="manufacturer-card" onclick="showSeries('gs kill')">
+      <img src="https://storage-asset.msi.com/event/2020/cnd/Dear-Gamer-Santa-2020/images/partner/Gskill.png" alt=".Skill">
+      <h3>G.Skill</h3>
+      <p>Известен высокочастотной памятью</p>
+      <span class="badge">🇹🇼 Тайвань</span>
+    </div>
+  </div>
+
+  <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
+  <div id="samsungModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('samsung')">&times;</span>
+      <h3>📘 Samsung</h3>
+      <ul><li>Крупнейший производитель чипов DDR4/DDR5</li><li>Собственные технологии: B-die (лучшие тайминги)</li><li>Линейка Samsung DDR5 — до 7200 МГц</li></ul>
+    </div>
+  </div>
+
+  <div id="skhynixModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('skhynix')">&times;</span>
+      <h3>📘 SK Hynix</h3>
+      <ul><li>Второй по величине производитель чипов</li><li>Разработчик стандарта DDR5</li><li>Чипы Hynix используются в серверах и ПК</li></ul>
+    </div>
+  </div>
+
+  <div id="micronModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('micron')">&times;</span>
+      <h3>📘 Micron / Crucial</h3>
+      <ul><li>Единственный американский производитель</li><li>Бренд Crucial — готовые модули для ПК</li><li>Технология 1α (1-alpha) — передовой техпроцесс</li></ul>
+    </div>
+  </div>
+
+  <div id="kingstonModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('kingston')">&times;</span>
+      <h3>📘 Kingston</h3>
+      <ul><li>Лидер по объёмам продаж модулей</li><li>Серии: ValueRAM (офис), Fury (игровая), Server (серверная)</li><li>Пожизненная гарантия на многие серии</li></ul>
+    </div>
+  </div>
+
+  <div id="corsairModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('corsair')">&times;</span>
+      <h3>📘 Corsair</h3>
+      <ul><li>Премиальные модули для геймеров</li><li>Серии: Vengeance, Dominator Platinum</li><li>Подсветка RGB, высокие частоты до 8000 МГц</li></ul>
+    </div>
+  </div>
+
+  <div id="gs killModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('gskill')">&times;</span>
+      <h3>📘 G.Skill</h3>
+      <ul><li>Специализация на высокочастотной памяти</li><li>Серия Trident Z — эталон для оверклокеров</li><li>Рекордные частоты до 9000+ МГц</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 4. КЛЮЧЕВЫЕ ХАРАКТЕРИСТИКИ ========== -->
+  <h2 id="characteristics" class="section-title" data-aos="fade-up">📈 Ключевые характеристики</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="features-grid" data-aos="fade-up">
+    <div class="feature-card" onclick="showFeature('frequency')">
+      <h3>⚡ Частота (МГц)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('timings')">
+      <h3>⏱️ Тайминги (CL)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('volume')">
+      <h3>💾 Объём (ГБ)</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('voltage')">
+      <h3>🔋 Напряжение</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('formfactor')">
+      <h3>📏 Форм-фактор</h3>
+    </div>
+    <div class="feature-card" onclick="showFeature('channels')">
+      <h3>🔗 Канальность</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для характеристик -->
+  <div id="frequencyModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('frequency')">&times;</span>
+      <h3>⚡ Частота памяти (МГц)</h3>
+      <p>Определяет скорость передачи данных. Чем выше частота — тем быстрее память.</p>
+      <ul><li>DDR4: 2133-3600+ МГц</li><li>DDR5: 4800-8000+ МГц</li><li>Эффективная частота в 2 раза выше реальной (DDR)</li></ul>
+    </div>
+  </div>
+  <div id="timingsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('timings')">&times;</span>
+      <h3>⏱️ Тайминги (CAS Latency)</h3>
+      <p>Задержки при доступе к памяти. Измеряются в тактах. Чем меньше — тем лучше.</p>
+      <ul><li>CL14-16 — хорошие тайминги для DDR4</li><li>CL28-36 — стандартные для DDR5</li><li>Формула: CL / частота = реальная задержка в нс</li></ul>
+    </div>
+  </div>
+  <div id="volumeModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('volume')">&times;</span>
+      <h3>💾 Объём памяти</h3>
+      <p>Количество данных, которые можно хранить одновременно.</p>
+      <ul><li>8 ГБ — минимум для современных задач</li><li>16 ГБ — оптимально для игр</li><li>32 ГБ+ — для профессиональной работы, монтажа, серверов</li></ul>
+    </div>
+  </div>
+  <div id="voltageModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('voltage')">&times;</span>
+      <h3>🔋 Напряжение питания</h3>
+      <p>Влияет на энергопотребление и нагрев.</p>
+      <ul><li>DDR3: 1.35-1.5 В</li><li>DDR4: 1.2 В (стандарт), 1.35 В (overclock)</li><li>DDR5: 1.1 В (стандарт), более энергоэффективна</li></ul>
+    </div>
+  </div>
+  <div id="formfactorModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('formfactor')">&times;</span>
+      <h3>📏 Форм-фактор</h3>
+      <p>Физический размер и конструктив модуля.</p>
+      <ul><li><strong>DIMM</strong> — стандартный для настольных ПК</li><li><strong>SO-DIMM</strong> — компактный для ноутбуков</li><li><strong>ECC</strong> — с коррекцией ошибок (серверы)</li></ul>
+    </div>
+  </div>
+  <div id="channelsModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('channels')">&times;</span>
+      <h3>🔗 Канальность памяти</h3>
+      <p>Режим работы контроллера памяти.</p>
+      <ul><li><strong>Одноканальный</strong> — один модуль</li><li><strong>Двухканальный</strong> — два модуля (рекомендуется)</li><li><strong>Четырёхканальный</strong> — для HEDT и серверов</li></ul>
+    </div>
+  </div>
+
+  <!-- Модальное окно для производства -->
+  <div id="manufactureModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('manufacture')">&times;</span>
+      <h3>🔬 Как создают оперативную память</h3>
+      <p>Производство чипов RAM аналогично процессорам:</p>
+      <ol>
+        <li><strong>Очистка кремния</strong> — получение чистых пластин</li>
+        <li><strong>Литография</strong> — создание транзисторов на пластине</li>
+        <li><strong>Нарезка</strong> — разделение на отдельные чипы</li>
+        <li><strong>Тестирование</strong> — проверка работоспособности чипов</li>
+        <li><strong>Монтаж</strong> — установка чипов на PCB-плату</li>
+        <li><strong>Сборка модуля</strong> — добавление радиаторов (для игровых серий)</li>
+      </ol>
+      <p>💡 <strong>Факт:</strong> Современные чипы DDR5 имеют плотность до 64 Гбит на кристалл.</p>
+    </div>
+  </div>
+
+  <!-- ========== 5. ТИПЫ ПАМЯТИ ========== -->
+  <h2 id="types" class="section-title" data-aos="fade-up">🔢 Типы оперативной памяти</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="types-grid" data-aos="fade-up">
+    <div class="type-card" onclick="showType('ddr3')">
+      <h3>💿 DDR3</h3>
+    </div>
+    <div class="type-card" onclick="showType('ddr4')">
+      <h3>💿 DDR4</h3>
+    </div>
+    <div class="type-card" onclick="showType('ddr5')">
+      <h3>💿 DDR5</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для типов памяти -->
+  <div id="ddr3Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ddr3')">&times;</span>
+      <h3>💿 DDR3</h3>
+      <ul><li>Частоты: 800-2133 МГц</li><li>Напряжение: 1.35-1.5 В</li><li>Устаревший стандарт (2007-2015)</li><li>Сейчас встречается только в старых системах</li></ul>
+    </div>
+  </div>
+  <div id="ddr4Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ddr4')">&times;</span>
+      <h3>💿 DDR4</h3>
+      <ul><li>Частоты: 2133-3600+ МГц</li><li>Напряжение: 1.2 В</li><li>Стандарт для систем 2015-2023</li><li>Поддержка на сокетах LGA1200, LGA1700 (частично), AM4</li></ul>
+    </div>
+  </div>
+  <div id="ddr5Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ddr5')">&times;</span>
+      <h3>💿 DDR5</h3>
+      <ul><li>Частоты: 4800-8000+ МГц</li><li>Напряжение: 1.1 В</li><li>Новейший стандарт (с 2021)</li><li>Поддержка на сокетах LGA1851, AM5</li><li>Встроенный контроллер питания (PMIC)</li><li>ECC на чипе (On-die ECC)</li></ul>
+    </div>
+  </div>
+
+  <!-- ========== 6. ОТЕЧЕСТВЕННЫЕ ПРОИЗВОДИТЕЛИ ========== -->
+  <h2 id="russian" class="section-title" data-aos="fade-up">🇷🇺 Отечественные разработки</h2>
+  
+  <div class="russian-container" data-aos="fade-up">
+    <h3>🔷 GS Nanotech (Зеленоград)</h3>
+    <ul>
+      <li>Разработка чипов оперативной памяти по 28 нм технологии</li>
+      <li>Проект по созданию отечественной DDR4 памяти</li>
+      <li>Ориентация на госсектор и импортозамещение</li>
+    </ul>
+    
+    <h3>🔶 Микрон (Зеленоград)</h3>
+    <ul>
+      <li>Крупнейший российский производитель микроэлектроники</li>
+      <li>Разработка чипов памяти для встраиваемых систем</li>
+      <li>Производство по 90-28 нм техпроцессам</li>
+    </ul>
+    
+    <h3>🔹 Сборка модулей в РФ</h3>
+    <ul>
+      <li>Модули RAM под брендами IRU, Kraftway, DEPO</li>
+      <li>Сборка на импортных чипах с российской PCB</li>
+      <li>Используются в госсекторе и офисных ПК</li>
+    </ul>
+    
+    <p style="margin-top: 20px; padding: 15px; background: rgba(52,152,219,0.1); border-radius: 12px;">
+      ⚡ <strong>Важно:</strong> Собственное производство чипов RAM в РФ находится на начальном этапе. Активно развивается сборка модулей и разработка новых технологий в рамках импортозамещения.
+    </p>
+  </div>
+
+  <!-- ========== 7. КАК ВЫБРАТЬ ОПЕРАТИВНУЮ ПАМЯТЬ ========== -->
+  <h2 id="howtochoose" class="section-title" data-aos="fade-up">💡 Как выбрать оперативную память?</h2>
+  
+  <div class="info-card" data-aos="fade-up">
+    <h3>📌 По назначению</h3>
+    <ul>
+      <li><strong>Офис/интернет:</strong> 8-16 ГБ DDR4 2666-3200 МГц</li>
+      <li><strong>Игровой ПК:</strong> 16-32 ГБ DDR4 3600+ / DDR5 6000+ МГц</li>
+      <li><strong>Монтаж/3D:</strong> 32-64 ГБ, важнее объём, чем частота</li>
+      <li><strong>Сервер/СУБД:</strong> 32-128+ ГБ ECC RAM</li>
+    </ul>
+	 <div class="info-card" data-aos="fade-up" style="margin-bottom: 30px;">
+    <ul class="feature-list">
+      <li><strong>Для офисного ПК:</strong> 8-16 ГБ DDR4 3200 МГц (2 модуля)</li>
+      <li><strong>Для игрового ПК (бюджетный):</strong> 16 ГБ DDR4 3200-3600 МГц CL16</li>
+      <li><strong>Для игрового ПК (премиум):</strong> 32 ГБ DDR5 6000-6400 МГц CL30</li>
+      <li><strong>Для монтажа/3D (макс.):</strong> 64 ГБ DDR5 5200-6000 МГц</li>
+      <li><strong>Для сервера:</strong> ECC Registered RAM, поддержка коррекции ошибок</li>
+    </ul>
+  </div>
+  <div class="info-card" data-aos="fade-up" style="background: rgba(52,152,219,0.08);">
+    <h3>⚠️ Важные моменты при выборе</h3>
+    <ul>
+      <li>Всегда используйте двухканальный режим (2 или 4 модуля)</li>
+      <li>Проверьте совместимость с материнской платой (DDR4/DDR5)</li>
+      <li>Учитывайте максимальную частоту поддерживаемую CPU и платой</li>
+      <li>Для AMD Ryzen важна частота и тайминги (особенно Infinity Fabric)</li>
+      <li>Для серверов обязательно используйте ECC память</li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- ========== 8. СРАВНЕНИЕ ========== -->
+  <h2 id="comparison" class="section-title" data-aos="fade-up">📊 Сравнение поколений DDR</h2>
+  
+  <div class="table-container" data-aos="fade-up">
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Параметр</th><th>DDR3</th><th>DDR4</th><th>DDR5</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Годы выпуска</td><td>2007-2015</td><td>2015-2023</td><td>2021→2026</td></tr>
+        <tr><td>Частота (МГц)</td><td>800-2133</td><td>2133-3600+</td><td>4800-8000+</td></tr>
+        <tr><td>Напряжение (В)</td><td>1.35-1.5</td><td>1.2</td><td>1.1</td></tr>
+        <tr><td>Пропускная способность (ГБ/с)</td><td>до 17</td><td>до 25.6</td><td>до 60+</td></tr>
+        <tr><td>Плотность чипа</td><td>до 8 Гбит</td><td>до 16 Гбит</td><td>до 64 Гбит</td></tr>
+        <tr><td>Макс. объём модуля</td><td>8 ГБ</td><td>32 ГБ</td><td>128 ГБ+</td></tr>
+        <tr><td>ECC на чипе</td><td>Нет</td><td>Нет</td><td>Да (On-die ECC)</td></tr>
+        <tr><td>PMIC (контроллер питания)</td><td>Нет</td><td>Нет</td><td>Да</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 9. БУДУЩЕЕ ОПЕРАТИВНОЙ ПАМЯТИ ========== -->
+  <h2 id="future" class="section-title" data-aos="fade-up">🚀 Будущее оперативной памяти</h2>
+  <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
+  
+  <div class="future-grid" data-aos="fade-up">
+    <div class="future-card" onclick="showFuture('ddr6')">
+      <h3>⚡ DDR6</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('3dram')">
+      <h3>🧬 3D DRAM</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('cxl')">
+      <h3>🔌 CXL память</h3>
+    </div>
+    <div class="future-card" onclick="showFuture('mrram')">
+      <h3>🔋 MRAM / PCM</h3>
+    </div>
+  </div>
+
+  <!-- Модальные окна для будущего -->
+  <div id="ddr6Modal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('ddr6')">&times;</span>
+      <h3>⚡ DDR6 (к 2026-2028)</h3>
+      <p>Планируемые частоты до 21000 МГц, напряжение ~1.0 В. Увеличение пропускной способности в 2 раза по сравнению с DDR5.</p>
+    </div>
+  </div>
+  <div id="3dramModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('3dram')">&times;</span>
+      <h3>🧬 3D DRAM</h3>
+      <p>Вертикальное размещение транзисторов для увеличения плотности памяти. Аналог 3D NAND для оперативной памяти.</p>
+    </div>
+  </div>
+  <div id="cxlModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('cxl')">&times;</span>
+      <h3>🔌 Compute Express Link (CXL)</h3>
+      <p>Технология объединения оперативной памяти разных устройств. Позволяет использовать память SSD как расширение RAM.</p>
+    </div>
+  </div>
+  <div id="mrramModal" class="modal">
+    <div class="modal-content"><span class="close" onclick="closeModal('mrram')">&times;</span>
+      <h3>🔋 Энергонезависимые типы</h3>
+      <p>MRAM (магниторезистивная), PCM (фазопереходная) — сохраняют данные при отключении питания. Уже используются в космосе и авиации.</p>
+    </div>
+  </div>
+
+  <!-- ========== ФОТОГАЛЕРЕЯ ========== -->
+  <h2 class="section-title" data-aos="fade-up">🖼️ Фотогалерея оперативной памяти</h2>
+  <div class="image-gallery" data-aos="fade-up">
+    <img src="../PNG/ram_ddr3.png" alt="DDR3">
+    <img src="../PNG/ram_ddr4.png" alt="DDR4">
+    <img src="../PNG/ram_ddr5.png" alt="DDR5">
+    <img src="../PNG/ram_notebook.png" alt="SO-DIMM">
+  </div>
+</main>
+
+<footer>
+  <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>📧 Для связи: info@academy-mchs.ru</p>
+  <p>🔒 Все материалы носят ознакомительный характер</p>
+</footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="../JS/script.js"></script>
+
+<script>
+  // Функции для характеристик
+  function showFeature(feature) {
+    document.getElementById(feature + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для типов памяти
+  function showType(type) {
+    document.getElementById(type + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для будущего
+  function showFuture(future) {
+    document.getElementById(future + 'Modal').style.display = 'block';
+  }
+  
+  // Функции для производителей
+  window.showSeries = function(manufacturer) {
+    document.getElementById(manufacturer + 'Modal').style.display = 'block';
+  };
+  
+  window.closeModal = function(modalId) {
+    document.getElementById(modalId + 'Modal').style.display = 'none';
+  };
+  
+  window.onclick = function(event) {
+    const modals = ['samsung', 'skhynix', 'micron', 'kingston', 'corsair', 'gskill', 'frequency', 'timings', 'volume', 'voltage', 'formfactor', 'channels', 'manufacture', 'ddr3', 'ddr4', 'ddr5', 'ddr6', '3dram', 'cxl', 'mrram'];
+    modals.forEach(function(id) {
+      const modal = document.getElementById(id + 'Modal');
+      if (event.target === modal) modal.style.display = 'none';
+    });
+  };
+  // Функция для увеличения изображения при клике
+  document.querySelectorAll('.info-card img, .image-gallery img').forEach(img => {
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100%';
+      modal.style.height = '100%';
+      modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+      modal.style.zIndex = '9999';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.cursor = 'pointer';
+      
+      const fullImg = document.createElement('img');
+      fullImg.src = this.src;
+      fullImg.style.maxWidth = '90%';
+      fullImg.style.maxHeight = '90%';
+      fullImg.style.borderRadius = '8px';
+      fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+      
+      modal.appendChild(fullImg);
+      document.body.appendChild(modal);
+      
+      modal.addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
