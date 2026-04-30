@@ -159,14 +159,22 @@
 
 <script>
 // ========== АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ ==========
+let isMobileAdapted = false;
+
 function adaptForMobile() {
+  if (isMobileAdapted) return;
   if (window.innerWidth > 768) return;
+  
+  isMobileAdapted = true;
   
   const header = document.querySelector('header');
   const logo = header.querySelector('.logo');
   const title = header.querySelector('.header-title');
   const themeBtn = header.querySelector('.theme-toggle');
   const navbar = document.getElementById('navbar');
+  
+  // Если уже адаптировано, не делаем ничего
+  if (header.querySelector('.header-center')) return;
   
   // Скрываем старый navbar
   navbar.style.display = 'none';
@@ -185,6 +193,7 @@ function adaptForMobile() {
   
   // Центральная колонка
   const headerCenter = document.createElement('div');
+  headerCenter.className = 'header-center';
   headerCenter.style.flex = '1';
   headerCenter.style.display = 'flex';
   headerCenter.style.flexDirection = 'column';
@@ -222,6 +231,7 @@ function adaptForMobile() {
   
   // Бургер-кнопка
   const burgerBtn = document.createElement('button');
+  burgerBtn.className = 'mobile-menu-btn';
   burgerBtn.style.background = 'rgba(255,255,255,0.15)';
   burgerBtn.style.border = 'none';
   burgerBtn.style.cursor = 'pointer';
@@ -320,15 +330,18 @@ function adaptForMobile() {
   });
 }
 
-// Запускаем
+// Запускаем один раз при загрузке
 window.addEventListener('DOMContentLoaded', function() {
   if (window.innerWidth <= 768) {
     adaptForMobile();
   }
 });
 
+// Убираем перезагрузку при ресайзе — просто проверяем флаг
 window.addEventListener('resize', function() {
-  location.reload();
+  if (window.innerWidth <= 768 && !isMobileAdapted) {
+    adaptForMobile();
+  }
 });
 </script>
 
