@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ИСП по аппаратному обеспечению ЭВМ</title>
   <link rel="icon" href="./PNG/favicon_io/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./CSS/style.css">
@@ -56,7 +56,7 @@
       <div class="card">
         <div class="card-content">
           <h2>Центральные процессоры (CPU)</h2>
-          <p>Арифметико-логическое устройство, управляющее всеми вычислительными процессами. Рассматриваются архитектуры x86/x64, ARM, отечественные разработки (Эльбрус, Байкал).</p>
+          <p>Арифметико-логическое устройство, управляющее всеми вычислительными процессами.</p>
           <span class="card-tag">Intel | AMD | Эльбрус</span>
         </div>
         <div class="card-image">
@@ -69,7 +69,7 @@
       <div class="card">
         <div class="card-content">
           <h2>Оперативная память (RAM)</h2>
-          <p>Энергозависимая память для временного хранения данных и команд. Типы DDR3/DDR4/DDR5, тайминги, частоты, двухканальный режим.</p>
+          <p>Энергозависимая память для временного хранения данных и команд.</p>
           <span class="card-tag">DDR3 | DDR4 | DDR5</span>
         </div>
         <div class="card-image">
@@ -82,11 +82,11 @@
       <div class="card">
         <div class="card-content">
           <h2>Накопители данных (HDD/SSD)</h2>
-          <p>Устройства долговременного хранения информации. Магнитные диски (HDD), твердотельные накопители (SSD), интерфейсы SATA/NVMe, контроллеры.</p>
+          <p>Устройства долговременного хранения информации.</p>
           <span class="card-tag">HDD | SSD | NVMe</span>
         </div>
         <div class="card-image">
-          <img src="./PNG/hdd.png" alt="Накопитель данных">
+          <img src="./PNG/hdd.png" alt="Накопитель">
         </div>
       </div>
     </a>
@@ -95,7 +95,7 @@
       <div class="card">
         <div class="card-content">
           <h2>Графические процессоры (GPU)</h2>
-          <p>Специализированные вычислители для обработки графики и параллельных вычислений. Архитектуры NVIDIA, AMD, Intel Arc, применение в машинном обучении.</p>
+          <p>Специализированные вычислители для обработки графики.</p>
           <span class="card-tag">NVIDIA | AMD | Intel</span>
         </div>
         <div class="card-image">
@@ -108,7 +108,7 @@
       <div class="card">
         <div class="card-content">
           <h2>Материнские платы</h2>
-          <p>Основная печатная плата, объединяющая все компоненты. Форм-факторы, чипсеты, сокеты, разъёмы расширения.</p>
+          <p>Основная плата, объединяющая все компоненты.</p>
           <span class="card-tag">ATX | microATX | Mini-ITX</span>
         </div>
         <div class="card-image">
@@ -121,7 +121,7 @@
       <div class="card">
         <div class="card-content">
           <h2>Блоки питания (PSU)</h2>
-          <p>Устройства электропитания компонентов ПК. Мощность, эффективность (80 PLUS), модульные кабели, защитные механизмы.</p>
+          <p>Устройства электропитания компонентов ПК.</p>
           <span class="card-tag">80 PLUS | ATX | SFX</span>
         </div>
         <div class="card-image">
@@ -134,11 +134,11 @@
       <div class="card">
         <div class="card-content">
           <h2>Системы охлаждения</h2>
-          <p>Комплексы для отвода тепла от компонентов. Воздушное, жидкостное, пассивное охлаждение. Термоинтерфейсы, вентиляторы, радиаторы.</p>
+          <p>Комплексы для отвода тепла от компонентов.</p>
           <span class="card-tag">Air | Liquid | Passive</span>
         </div>
         <div class="card-image">
-          <img src="./PNG/case.png" alt="Система охлаждения">
+          <img src="./PNG/case.png" alt="Охлаждение">
         </div>
       </div>
     </a>
@@ -147,7 +147,7 @@
 
 <footer>
   <p>📞 Телефон доверия: 8 (498) 699-04-44</p>
-  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России имени генерал-лейтенанта Д.И.Михайлика", 2026</p>
+  <p>© ФГБВОУ ВО "Академия гражданской защиты МЧС России", 2026</p>
   <p>📧 Для связи: info@academy-mchs.ru</p>
   <p>🔒 Все материалы носят ознакомительный характер</p>
 </footer>
@@ -156,6 +156,181 @@
 
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script src="./JS/script.js"></script>
+
+<script>
+// ========== АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ ==========
+function adaptForMobile() {
+  if (window.innerWidth > 768) return;
+  
+  const header = document.querySelector('header');
+  const logo = header.querySelector('.logo');
+  const title = header.querySelector('.header-title');
+  const themeBtn = header.querySelector('.theme-toggle');
+  const navbar = document.getElementById('navbar');
+  
+  // Скрываем старый navbar
+  navbar.style.display = 'none';
+  
+  // Меняем стиль логотипа
+  logo.style.width = '70px';
+  logo.style.marginRight = '0';
+  
+  // Создаём новую структуру
+  header.style.display = 'flex';
+  header.style.flexDirection = 'row';
+  header.style.alignItems = 'center';
+  header.style.justifyContent = 'space-between';
+  header.style.padding = '10px 15px';
+  header.style.gap = '10px';
+  
+  // Центральная колонка
+  const headerCenter = document.createElement('div');
+  headerCenter.style.flex = '1';
+  headerCenter.style.display = 'flex';
+  headerCenter.style.flexDirection = 'column';
+  headerCenter.style.gap = '6px';
+  
+  // Название
+  const newTitle = document.createElement('div');
+  newTitle.className = 'header-title';
+  newTitle.style.textAlign = 'center';
+  const titleH1 = document.createElement('h1');
+  titleH1.textContent = 'Информационно-справочное пособие';
+  titleH1.style.fontSize = '14px';
+  titleH1.style.margin = '0';
+  titleH1.style.whiteSpace = 'nowrap';
+  titleH1.style.overflow = 'hidden';
+  titleH1.style.textOverflow = 'ellipsis';
+  newTitle.appendChild(titleH1);
+  headerCenter.appendChild(newTitle);
+  
+  // Контейнер для кнопок
+  const headerButtons = document.createElement('div');
+  headerButtons.style.display = 'flex';
+  headerButtons.style.alignItems = 'center';
+  headerButtons.style.justifyContent = 'flex-end';
+  headerButtons.style.gap = '8px';
+  
+  // Новая кнопка темы
+  const newThemeBtn = themeBtn.cloneNode(true);
+  newThemeBtn.style.padding = '6px 12px';
+  newThemeBtn.style.fontSize = '12px';
+  newThemeBtn.style.background = 'rgba(255,255,255,0.15)';
+  newThemeBtn.style.borderRadius = '6px';
+  newThemeBtn.style.border = 'none';
+  newThemeBtn.style.cursor = 'pointer';
+  
+  // Бургер-кнопка
+  const burgerBtn = document.createElement('button');
+  burgerBtn.style.background = 'rgba(255,255,255,0.15)';
+  burgerBtn.style.border = 'none';
+  burgerBtn.style.cursor = 'pointer';
+  burgerBtn.style.padding = '6px 10px';
+  burgerBtn.style.borderRadius = '6px';
+  burgerBtn.style.display = 'flex';
+  burgerBtn.style.flexDirection = 'column';
+  burgerBtn.style.alignItems = 'center';
+  burgerBtn.style.justifyContent = 'center';
+  burgerBtn.innerHTML = '<span></span><span></span><span></span>';
+  
+  const spans = burgerBtn.querySelectorAll('span');
+  spans.forEach(span => {
+    span.style.display = 'block';
+    span.style.width = '20px';
+    span.style.height = '2px';
+    span.style.margin = '3px 0';
+    span.style.backgroundColor = '#fff';
+    span.style.borderRadius = '2px';
+    span.style.transition = 'all 0.3s ease';
+  });
+  
+  headerButtons.appendChild(newThemeBtn);
+  headerButtons.appendChild(burgerBtn);
+  headerCenter.appendChild(headerButtons);
+  
+  // Очищаем header и собираем заново
+  header.innerHTML = '';
+  header.appendChild(logo);
+  header.appendChild(headerCenter);
+  
+  // Обработчик кнопки темы
+  newThemeBtn.onclick = function(e) {
+    e.preventDefault();
+    if (typeof toggleTheme === 'function') toggleTheme();
+  };
+  
+  // Бургер-меню
+  let menuOpen = false;
+  
+  burgerBtn.onclick = function(e) {
+    e.stopPropagation();
+    menuOpen = !menuOpen;
+    
+    if (menuOpen) {
+      navbar.style.display = 'flex';
+      navbar.style.flexDirection = 'column';
+      navbar.style.position = 'absolute';
+      navbar.style.top = '85px';
+      navbar.style.left = '0';
+      navbar.style.right = '0';
+      navbar.style.backgroundColor = '#2c3e50';
+      navbar.style.padding = '15px';
+      navbar.style.zIndex = '1001';
+      navbar.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+      
+      burgerBtn.classList.add('active');
+      const s = burgerBtn.querySelectorAll('span');
+      s[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
+      s[1].style.opacity = '0';
+      s[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      navbar.style.display = 'none';
+      burgerBtn.classList.remove('active');
+      const s = burgerBtn.querySelectorAll('span');
+      s[0].style.transform = 'none';
+      s[1].style.opacity = '1';
+      s[2].style.transform = 'none';
+    }
+  };
+  
+  // Закрыть при клике на ссылку
+  navbar.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuOpen = false;
+      navbar.style.display = 'none';
+      burgerBtn.classList.remove('active');
+      const s = burgerBtn.querySelectorAll('span');
+      s[0].style.transform = 'none';
+      s[1].style.opacity = '1';
+      s[2].style.transform = 'none';
+    });
+  });
+  
+  // Закрыть при клике вне меню
+  document.addEventListener('click', function(event) {
+    if (menuOpen && !navbar.contains(event.target) && !burgerBtn.contains(event.target)) {
+      menuOpen = false;
+      navbar.style.display = 'none';
+      burgerBtn.classList.remove('active');
+      const s = burgerBtn.querySelectorAll('span');
+      s[0].style.transform = 'none';
+      s[1].style.opacity = '1';
+      s[2].style.transform = 'none';
+    }
+  });
+}
+
+// Запускаем
+window.addEventListener('DOMContentLoaded', function() {
+  if (window.innerWidth <= 768) {
+    adaptForMobile();
+  }
+});
+
+window.addEventListener('resize', function() {
+  location.reload();
+});
+</script>
 
 </body>
 </html>
