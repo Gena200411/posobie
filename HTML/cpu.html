@@ -2,13 +2,48 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Процессоры - CPU</title>
-  <link rel="icon" href="../PNG/favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="./PNG/favicon_io/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../CSS/style.css">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   
   <style>
+    /* Бургер-меню (только для мобильных) */
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .mobile-menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 3px 0;
+      background-color: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(4px, 4px);
+    }
+    
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
     /* Сетки для карточек - по 3 в ряд */
     .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
       display: grid;
@@ -17,39 +52,116 @@
       margin: 30px 0;
     }
     
-    /* Стили карточек производителей */
-    .manufacturer-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 20px 15px;
-      text-align: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .manufacturer-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
-    }
-    
-    .manufacturer-card img {
-      width: 100px;
-      height: auto;
-      margin-bottom: 12px;
-    }
-    
-    .manufacturer-card h3 {
-      font-size: 18px;
-      margin: 10px 0 5px;
-      color: var(--text-color);
-    }
-    
-    .manufacturer-card p {
-      font-size: 12px;
-      color: var(--text-light);
-      margin: 5px 0;
-    }
+    /* Стили карточек производителей - КОМПАКТНАЯ версия */
+.manufacturers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.manufacturer-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 18px 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.manufacturer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Блок с изображениями - без отдельного фона, компактный */
+.manufacturer-card .card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  min-height: 65px;
+}
+
+.manufacturer-card .card-image img {
+  width: auto;
+  max-width: 85px;
+  height: 50px;
+  object-fit: contain;
+}
+
+/* Для российских логотипов - делаем их чуть меньше */
+.manufacturer-card .card-image img[src*="baikal"],
+.manufacturer-card .card-image img[src*="Elbrus"] {
+  max-width: 98px;
+  height: 68px;
+}
+
+/* Альтернатива: только для тёмных логотипов (если нужен выборочный подход) */
+.dark-theme .manufacturer-card .card-image img[src*="AMD"],
+.dark-theme .manufacturer-card .card-image img[src*="Elbrus"] {
+  filter: brightness(0) invert(1);
+}
+
+/* Текстовая часть - компактно */
+.manufacturer-card .card-content h3 {
+  font-size: 17px;
+  margin: 0 0 5px 0;
+  color: var(--text-color);
+}
+
+.manufacturer-card .card-content p {
+  font-size: 11px;
+  color: var(--text-light);
+  margin: 0 0 8px 0;
+}
+
+.manufacturer-card .badge {
+  display: inline-block;
+  background: var(--highlight-color);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.manufacturer-card .russian-badge {
+  background: #e74c3c;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 900px) and (min-width: 769px) {
+  .manufacturers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .manufacturers-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .manufacturer-card {
+    padding: 15px;
+  }
+  
+  .manufacturer-card .card-image {
+    min-height: 55px;
+  }
+  
+  .manufacturer-card .card-image img {
+    max-width: 70px;
+    height: 40px;
+  }
+}
     
     /* Стили карточек характеристик, сокетов, будущего */
     .feature-card, .socket-card, .future-card {
@@ -224,18 +336,223 @@
       margin: 30px 0;
     }
     
-    /* Адаптивность */
-    @media (max-width: 900px) {
-      .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    /* ПК версия (по умолчанию) */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+      color: #fff;
+      padding: 15px 30px;
+      flex-wrap: wrap;
+      gap: 15px;
     }
     
-    @media (max-width: 600px) {
+    .logo {
+      width: 130px;
+      height: auto;
+      margin-right: 10px;
+    }
+    
+    .header-title {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .header-title h1 {
+      margin: 0;
+      font-size: 1.3rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .theme-toggle {
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(1.05);
+    }
+    
+    /* Навбар (ПК) */
+    #navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      background-color: var(--nav-bg);
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+      gap: 5px;
+    }
+    
+    #navbar a {
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 10px 16px;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+    }
+    
+    #navbar a:hover {
+      border-bottom-color: var(--highlight-color);
+      color: var(--highlight-color);
+    }
+    
+    /* ========== МОБИЛЬНАЯ ВЕРСИЯ ========== */
+    @media (max-width: 768px) {
+      /* Мобильный header */
+      header {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 10px 15px !important;
+        gap: 12px !important;
+      }
+      
+      .logo {
+        width: 55px !important;
+        height: auto !important;
+        flex-shrink: 0 !important;
+        margin-right: 0 !important;
+      }
+      
+      .header-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .header-title {
+        text-align: center;
+      }
+      
+      .header-title h1 {
+        font-size: 11px !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+      }
+      
+      .header-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+      
+      .theme-toggle {
+        padding: 4px 8px !important;
+        font-size: 10px !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-radius: 6px !important;
+        border: none !important;
+        white-space: nowrap !important;
+      }
+      
+      .mobile-menu-btn {
+        display: flex !important;
+        padding: 4px 8px !important;
+      }
+      
+      .mobile-menu-btn span {
+        width: 16px !important;
+        margin: 2px 0 !important;
+      }
+      
+      /* Скрываем навбар по умолчанию */
+      #navbar {
+        display: none !important;
+        position: absolute !important;
+        top: 70px !important;
+        left: 0 !important;
+        right: 0 !important;
+        background-color: #2c3e50 !important;
+        padding: 12px !important;
+        z-index: 1001 !important;
+      }
+      
+      #navbar.open {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      
+      #navbar a {
+        padding: 10px !important;
+        font-size: 13px !important;
+        text-align: center !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+      }
+      
+      #navbar a:last-child {
+        border-bottom: none !important;
+      }
+      
+      /* Адаптивность карточек */
       .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
         grid-template-columns: 1fr;
       }
     }
+    
+    @media (max-width: 900px) and (min-width: 769px) {
+      .manufacturers-grid, .features-grid, .sockets-grid, .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+	/* ========================================
+   УЛУЧШЕННАЯ ФОТОГАЛЕРЕЯ
+   ======================================== */
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.image-gallery img {
+  width: auto;
+  max-width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Для мобильных — увеличиваем отображение */
+@media (max-width: 768px) {
+  .image-gallery img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-gallery img {
+    height: 120px;
+  }
+}
   </style>
 </head>
 <body>
@@ -250,7 +567,10 @@
   <div class="header-title">
     <h1>Центральные процессоры (CPU)</h1>
   </div>
-  <button class="theme-toggle" onclick="toggleTheme()">🌗 Режим отображения</button>
+  <button class="theme-toggle" onclick="toggleTheme()">🌗 Тема</button>
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <nav id="navbar">
@@ -308,28 +628,40 @@
   <p class="section-subtitle" data-aos="fade-up">Нажмите на карточку, чтобы узнать подробнее</p>
   
   <div class="manufacturers-grid" data-aos="fade-up">
-    <div class="manufacturer-card" onclick="showSeries('intel')">
+  <div class="manufacturer-card" onclick="showSeries('intel')">
+    <div class="card-image">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/1920px-Intel_logo_2023.svg.png" alt="Intel">
+    </div>
+    <div class="card-content">
       <h3>Intel</h3>
       <p>Крупнейший производитель</p>
       <span class="badge">🇺🇸 США</span>
     </div>
+  </div>
 
-    <div class="manufacturer-card" onclick="showSeries('amd')">
+  <div class="manufacturer-card" onclick="showSeries('amd')">
+    <div class="card-image">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/330px-AMD_Logo.svg.png" alt="AMD">
+    </div>
+    <div class="card-content">
       <h3>AMD</h3>
       <p>Главный конкурент Intel</p>
       <span class="badge">🇺🇸 США</span>
     </div>
+  </div>
 
-    <div class="manufacturer-card" onclick="showSeries('russian')">
-      <img src="../PNG/baikal-logo.png" alt="Российские процессоры" style="width: 80px;">
-	  <img src="../PNG/Elbrus-logo.png" alt="Российские процессоры" style="width: 80px;">
+  <div class="manufacturer-card" onclick="showSeries('russian')">
+    <div class="card-image">
+      <img src="../PNG/baikal-logo.png" alt="Российские процессоры">
+      <img src="../PNG/Elbrus-logo.png" alt="Российские процессоры">
+    </div>
+    <div class="card-content">
       <h3>Российские разработки</h3>
       <p>Импортозамещение</p>
       <span class="badge russian-badge">🇷🇺 Россия</span>
     </div>
   </div>
+</div>
 
   <!-- ========== МОДАЛЬНЫЕ ОКНА ДЛЯ ПРОИЗВОДИТЕЛЕЙ ========== -->
   <div id="intelModal" class="modal">
@@ -680,69 +1012,96 @@
 <script src="../JS/script.js"></script>
 
 <script>
-  // Функции для характеристик
-  function showFeature(feature) {
-    document.getElementById(feature + 'Modal').style.display = 'block';
-  }
+  function showFeature(f) { document.getElementById(f + 'Modal').style.display = 'block'; }
+  function showSocket(s) { document.getElementById(s + 'Modal').style.display = 'block'; }
+  function showFuture(f) { document.getElementById(f + 'Modal').style.display = 'block'; }
+  window.showSeries = function(m) { document.getElementById(m + 'Modal').style.display = 'block'; };
+  window.closeModal = function(m) { document.getElementById(m + 'Modal').style.display = 'none'; };
   
-  // Функции для сокетов
-  function showSocket(socket) {
-    document.getElementById(socket + 'Modal').style.display = 'block';
-  }
-  
-  // Функции для будущего
-  function showFuture(future) {
-    document.getElementById(future + 'Modal').style.display = 'block';
-  }
-  
-  // Функции для производителей
-  window.showSeries = function(manufacturer) {
-    document.getElementById(manufacturer + 'Modal').style.display = 'block';
+  window.onclick = function(e) {
+    const modals = ['intel', 'amd', 'russian', 'cores', 'frequency', 'cache', 'process', 'architecture', 'tdp', 'manufacture', 'intelSockets', 'amdSockets', 'russianSockets', 'nanometer', '3d', 'ai'];
+    modals.forEach(id => { let m = document.getElementById(id + 'Modal'); if (e.target === m) m.style.display = 'none'; });
   };
   
-  window.closeModal = function(modalId) {
-    document.getElementById(modalId + 'Modal').style.display = 'none';
-  };
-  
-  window.onclick = function(event) {
-    const modals = ['intel', 'amd', 'russian', 'cores', 'frequency', 'cache', 'process', 'architecture', 'tdp', 'manufacture', 'intelSockets', 'amdSockets', 'russianSockets', 'nanometer', '3d', 'ai', 'heterogeneous', 'russianFuture'];
-    modals.forEach(function(id) {
-      const modal = document.getElementById(id + 'Modal');
-      if (event.target === modal) modal.style.display = 'none';
-    });
-  };
-  // Функция для увеличения изображения при клике
+  // Увеличение изображений
   document.querySelectorAll('.info-card img, .image-gallery img').forEach(img => {
     img.addEventListener('click', function(e) {
       e.stopPropagation();
       const modal = document.createElement('div');
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100%';
-      modal.style.height = '100%';
-      modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
-      modal.style.zIndex = '9999';
-      modal.style.display = 'flex';
-      modal.style.alignItems = 'center';
-      modal.style.justifyContent = 'center';
-      modal.style.cursor = 'pointer';
-      
+      modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer';
       const fullImg = document.createElement('img');
       fullImg.src = this.src;
-      fullImg.style.maxWidth = '90%';
-      fullImg.style.maxHeight = '90%';
-      fullImg.style.borderRadius = '8px';
-      fullImg.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
-      
+      fullImg.style.cssText = 'max-width:90%;max-height:90%;border-radius:8px;box-shadow:0 0 30px rgba(0,0,0,0.5)';
       modal.appendChild(fullImg);
       document.body.appendChild(modal);
-      
-      modal.addEventListener('click', () => {
-        document.body.removeChild(modal);
-      });
+      modal.onclick = () => document.body.removeChild(modal);
     });
   });
+  
+  // Бургер-меню (только на мобильных)
+  (function() {
+    if (window.innerWidth > 768) return;
+    const header = document.querySelector('header');
+    const logo = header.querySelector('.logo');
+    const title = header.querySelector('.header-title');
+    const themeBtn = header.querySelector('.theme-toggle');
+    const burger = document.getElementById('mobileMenuBtn');
+    const navbar = document.getElementById('navbar');
+    
+    // Перестраиваем header для мобильных
+    const newHeader = document.createElement('div');
+    newHeader.className = 'header-right';
+    
+    const newTitle = title.cloneNode(true);
+    newTitle.style.textAlign = 'center';
+    newTitle.querySelector('h1').style.fontSize = '11px';
+    newTitle.querySelector('h1').style.whiteSpace = 'nowrap';
+    
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.className = 'header-buttons';
+    const newThemeBtn = themeBtn.cloneNode(true);
+    newThemeBtn.style.cssText = 'padding:4px 8px;font-size:10px;background:rgba(255,255,255,0.15);border-radius:6px;border:none;white-space:nowrap';
+    newThemeBtn.onclick = function(e) { e.preventDefault(); toggleTheme(); };
+    
+    buttonsDiv.appendChild(newThemeBtn);
+    buttonsDiv.appendChild(burger);
+    newHeader.appendChild(newTitle);
+    newHeader.appendChild(buttonsDiv);
+    
+    header.innerHTML = '';
+    header.style.cssText = 'display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:10px 15px;gap:12px';
+    logo.style.cssText = 'width:55px;height:auto;flex-shrink:0;margin-right:0';
+    header.appendChild(logo);
+    header.appendChild(newHeader);
+    
+    // Бургер функционал
+    burger.onclick = function(e) {
+      e.stopPropagation();
+      this.classList.toggle('active');
+      navbar.classList.toggle('open');
+      const spans = this.querySelectorAll('span');
+      if (this.classList.contains('active')) {
+        spans[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+      } else {
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
+    };
+    
+    navbar.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('active');
+        navbar.classList.remove('open');
+        const spans = burger.querySelectorAll('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      });
+    });
+  })();
 </script>
 
 </body>
